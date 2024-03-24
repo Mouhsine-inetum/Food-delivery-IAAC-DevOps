@@ -1,0 +1,62 @@
+trigger: none
+
+parameters:
+  - name: variableGroup
+    type: string
+    default: vg-pfu-infrastructure
+  - name: serviceConnection
+    type: string
+    default: Visual Studio Professional Subscription(0f7a3b62-c1a4-4aa9-97c3-3bf5f497b5ab)
+  - name: environment
+    type: string
+    values:
+      - dev
+      - acc
+      - prod
+
+variables:
+  - group: ${{ parameters.variableGroup }}
+  - name: version
+    value: 002
+  - name: rgName
+    value: "rg-$(companyShort)-$(domainShort)-$(appShort)-$(locationAbbr)-${{ parameters.environment }}-$(version)"
+
+stages:
+  - template: "./templates/stages/stage-deploy-infra.yml@self"
+    parameters:
+      stage: StageProvisionInfrastructureLogAnalytics
+      resource: "Log Analytics"
+      serviceConnection: "${{ parameters.serviceConnection }}"
+      rgName: "$(rgName)"
+      infraPath: "infra/loganalytics"
+      location: "$(location)"
+      owner: "$(owner)"
+      costCenter: "$(costCenter)"
+      application: "$(application)"
+      desc: "$(descp)"
+      repo: "$(repo)"
+      appShort: "$(appShort)"
+      domainShort: "$(domainShort)"
+      version: "$(version)"
+      env: "${{ parameters.environment }}"
+
+  - template: "./templates/stages/stage-deploy-infra.yml@self"
+    parameters:
+      stage: StageProvisionInfrastructureDataFactory
+      dependsOn:
+        - StageProvisionInfrastructureLogAnalytics
+      condition: succeeded()
+      resource: "Data Factory"
+      serviceConnection: "${{ parameters.serviceConnection }}"
+      rgName: "$(rgName)"
+      infraPath: "infra/data-factory"
+      location: "$(location)"
+      owner: "$(owner)"
+      costCenter: "$(costCenter)"
+      application: "$(application)"
+      desc: "$(desc)"
+      repo: "$(repo)"
+      appShort: "$(appShort)"
+      domainShort: "$(domainShort)"
+      version: "$(version)"
+      env: "${{ parameters.environment }}"
