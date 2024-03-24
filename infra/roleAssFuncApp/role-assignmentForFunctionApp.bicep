@@ -13,12 +13,12 @@ param topicsListenerRoleDefinitionId string
 @description('principal id to will be given access to the resouurce')
 param principalId string
 
-@description('storage to give access to')
-param storageServiceName string
+var storageServiceName = 'sa${replace(partName,'-','')}'
 
-@description('topics in sb to give access to')
-param serviceBusServiceName string
+var serviceBusName = 'sbn-${partName}'
 
+@description('component name used for resource name')
+param partName string 
 
 resource storageBlobService 'Microsoft.Storage/storageAccounts@2023-01-01' existing = {
   name: storageServiceName
@@ -36,7 +36,7 @@ resource contributeRoleAssignmentForStorage 'Microsoft.Authorization/roleAssignm
 
 
 resource serviceBus 'Microsoft.ServiceBus/namespaces@2022-10-01-preview' existing = {
-  name: serviceBusServiceName
+  name: serviceBusName
 }
 
 resource contributeRoleAssignmentForServiceBus 'Microsoft.Authorization/roleAssignments@2022-04-01' = {

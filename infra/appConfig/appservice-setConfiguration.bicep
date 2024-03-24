@@ -1,6 +1,6 @@
 
-@description('name of the api')
-param webApiName string
+@description('component name used for resource name')
+param partName string 
 
 // @description('storage name.')
 // param storageAccountName string
@@ -16,6 +16,8 @@ param apiConfigSet array
 // @description('name of the client domain')
 // param funcAppConfigSet array
 
+
+var webApiName = 'wa-${partName}'
 resource webApi 'Microsoft.Web/sites@2023-01-01' existing = {
   name: webApiName
 }

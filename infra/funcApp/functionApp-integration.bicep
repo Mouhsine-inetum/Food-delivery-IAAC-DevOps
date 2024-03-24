@@ -1,14 +1,10 @@
 param location string
-param env string
 
-@description('Suffix for function app, storage account, and key vault names.')
-param appNameSuffix string = uniqueString(resourceGroup().id)
+@description('component name used for resource name')
+param partName string 
 
 @description('storage name.')
 param storageAccountName string
-
-@description('name of the function app')
-param functionaAppName string ='MyServiceBusTriggeredFunction'
 
 @description('name of the container to be created')
 param nameOfContainer string
@@ -17,11 +13,11 @@ param nameOfContainer string
 @description('name of the in value binded trigger')
 param bindingName string 
 
-var functionAppName = 'fn-${env}-${appNameSuffix}'
-var appServicePlanName = 'FunctionPlan-${env}-${appNameSuffix}'
+var functionAppName = 'fa-${partName}'
+var appServicePlanName = 'as-${partName}'
 // var appInsightsName = 'AppInsights-${functionAppName}-${appNameSuffix}'
 // var storageAccountName = 'fnstor${replace(appNameSuffix, '-', '')}'
-var functionNameComputed = '${functionaAppName}-${env}-${location}'
+var functionName = 'fn${partName}'
 var functionRuntime = 'dotnet'
 // var workspaceName = 'workspace-${appNameSuffix}'
 
@@ -29,34 +25,8 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2023-01-01' existing 
   name: storageAccountName
 }
 
-// resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2022-10-01' = {
-//   name: workspaceName
-//   location: location
-//   properties: {
-    
-//   }
-// }
-
-// resource appInsights 'Microsoft.Insights/components@2020-02-02' = {
-//   name: appInsightsName
-//   location: location
-//   kind: 'web'
-//   properties: {
-//     Application_Type: 'web'
-//     publicNetworkAccessForIngestion: 'Enabled'
-//     publicNetworkAccessForQuery: 'Enabled'
-//     WorkspaceResourceId: logAnalyticsWorkspace.id
-//   }
-// }
-
-resource plan 'Microsoft.Web/serverfarms@2020-12-01' = {
+resource plan 'Microsoft.Web/serverfarms@2020-12-01' existing = {
   name: appServicePlanName
-  location: location
-  kind: 'functionapp'
-  sku: {
-    name: 'B1'
-  }
-  properties: {}
 }
 
 
@@ -101,7 +71,7 @@ resource functionApp 'Microsoft.Web/sites@2020-12-01' = {
 
 resource function 'Microsoft.Web/sites/functions@2023-01-01' = {
   parent: functionApp
-  name: functionNameComputed
+  name: functionName
   properties: {
 
     script_href: 'https://github.com/Mouhsine-inetum/Food-delivery-productCreated-functionApp.git'

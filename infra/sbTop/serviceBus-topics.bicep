@@ -1,8 +1,9 @@
 param location string 
 
-param env string
+@description('component name used for resource name')
+param partName string 
 
-var sbNameSpace = 'service-bus-namespace-${env}-${location}'
+var sbNameSpace = 'sbn-${partName}'
 
 resource serviceBus 'Microsoft.ServiceBus/namespaces@2022-10-01-preview' = {
   name: sbNameSpace

@@ -2,7 +2,8 @@
 // @description('Specifies the name of the key vault.')
 // param keyVaultName string
 
-param env string
+@description('component name used for resource name')
+param partName string 
 
 @description('Specifies the SKU to use for the key vault.')
 param keyVaultSku object = {
@@ -20,7 +21,7 @@ resource keyVaultAdministratorRoleDefinition 'Microsoft.Authorization/roleDefini
 }
 
 
-var kvName= 'kv${env}${uniqueString(resourceGroup().id)}' 
+var kvName= 'kv${replace(partName,'-','')}'
 
 resource keyVault 'Microsoft.KeyVault/vaults@2023-02-01' = {
   name: kvName

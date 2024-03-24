@@ -2,10 +2,12 @@ param roleDefinitionId string
 
 param principalId string
 
-param keyVaultName string
-
 param serviceBusId string
 
+@description('component name used for resource name')
+param partName string 
+
+var keyVaultName = 'kv${partName}' 
 resource keyVault 'Microsoft.KeyVault/vaults@2023-02-01' existing = {
   name: keyVaultName
 }

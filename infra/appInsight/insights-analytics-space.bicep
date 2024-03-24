@@ -2,17 +2,17 @@
 
 param location string
 
-param env  string
+@description('component name used for resource name')
+param partName string 
 
-@description('the name of the api to monitor')
-param webApiName string
+var webApiName = 'wa-${partName}'
 
 resource webApi 'Microsoft.Web/sites@2023-01-01' existing = {
   name: webApiName
 }
 
-var workspaceName ='workspace-analytics-${env}-${webApi.name}'
-var appinsightName ='appInsights-${env}-${webApi.name}'
+var workspaceName ='wsa-${partName}'
+var appinsightName ='ai-${partName}'
 
 resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2023-09-01' = {
   name: workspaceName

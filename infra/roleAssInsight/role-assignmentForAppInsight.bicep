@@ -14,8 +14,11 @@ param ReadRoleDefinitionId string
 @description('principal id to will be given access to the resouurce')
 param principalId string
 
-@description('log analytcs to give access to')
-param logSpaceName string
+
+@description('component name used for resource name')
+param partName string 
+
+var logSpaceName = 'wsa-${partName}'
 
 
 resource logSpace 'Microsoft.OperationalInsights/workspaces@2023-09-01' existing = {

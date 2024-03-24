@@ -2,24 +2,16 @@
 @description('Specifies the Azure location where the resources should be created.')
 param location string
 
-param env string
-
 @description('the different names of the containers')
 param containerNames array= [
-	'${env}-blob-log'
-	'${env}-foodelivery-products'
+	'logs'
+	'foodelivery-products'
 ]
 
+@description('component name used for resource name')
+param partName string 
 
-var nameSa='${env}safrombicep${location}'
-
-
-var readRoleId ='2a2b9908-6ea1-4ae2-8e65-a410df84e7d1'
-@description('This is the built-in storage blob reader role. See https://docs.microsoft.com/azure/role-based-access-control/built-in-roles')
-resource storageBlobReaderRoleDefinition 'Microsoft.Authorization/roleDefinitions@2022-04-01' existing = {
-  scope: subscription()
-  name: readRoleId
-}
+var nameSa = 'sa${replace(partName,'-','')}'
 
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2023-01-01'={
@@ -59,4 +51,3 @@ resource blobContainers 'Microsoft.Storage/storageAccounts/blobServices/containe
 
 output storageName string = storageAccount.name
 output idStorage string = storageAccount.id
-output storageRoleName string = storageBlobReaderRoleDefinition.id

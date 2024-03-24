@@ -1,5 +1,3 @@
-param env string
-
 param location string
 
 @description('the name of the database')
@@ -8,7 +6,6 @@ param DbName string
 @description('Specifies sql admin login')
 @secure()
 param sqlAdministratorLogin string
-
 
 
 @minLength(8)
@@ -20,9 +17,11 @@ param  sqlAdministratorPassword string
 @description('the ip addresses of the web app that will connect to the server')
 param webappIp array
 
+@description('component name used for resource name')
+param partName string 
 
-var sqlServerName= '${env}-sqlserver-${uniqueString(resourceGroup().id)}-${location}'
-var databaseName = '${env}-${DbName}-${location}'
+var sqlServerName= 'ssdb-${partName}'
+var databaseName = 'sdb-${partName}'
 
 
 

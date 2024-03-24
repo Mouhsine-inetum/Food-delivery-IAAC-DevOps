@@ -2,9 +2,10 @@
 @description('Specifies the Azure location where the resources should be created.')
 param location string
 
-param env string
+@description('component name used for resource name')
+param partName string 
 
-var managedIdentityName = '${env}-usermangedid-${location}'
+var managedIdentityName = 'uid-${partName}'
 
 resource managedIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-31' = {
   name: managedIdentityName
