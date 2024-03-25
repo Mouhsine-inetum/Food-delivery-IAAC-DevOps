@@ -1,6 +1,8 @@
 //general
 @description('Specifies the Azure location where the resources should be created.')
 param location string = resourceGroup().location
+@description('the component structure that will be used in name following a convention')
+param partName string
 
 @allowed([
 	'dev'
@@ -79,50 +81,49 @@ param containerName string
 
 //modules :
 
-module managedIdModule 'modules/managedId.bicep' = {
+module managedIdModule './infra/managedId/managedId.bicep' = {
 	name: 'managedIdDeploy'
 	params: {
 		location: location
-		env:env
+    partName: partName
 	}
 }
 
-module storageAccountModule 'modules/storageAccount.bicep' = {
+
+module storageAccountModule './infra/sa/storageAccount.bicep' = {
 	name: 'storageAccountDeploy'
 	params: {
 		location: location
 		containerNames: containerNames
-		env: env		
+		partName:partName
 	}
 }
 
-module keyVaultModule 'modules/keyVault.bicep' = {
-name:'keyVaultDeploy'
-params:{
-env: env
-location:location
-}
-}
-
-module roleAssignmentForKV 'modules/role-assignmentForKeyVault.bicep' = {
-  name: 'role-assignment-kv'
-  params: {
-    keyVaultName: keyVaultModule.outputs.keyVaultNameOut
-    roleDefinitionId: keyVaultModule.outputs.keyVaultRoleDefinition
-    principalId: managedIdModule.outputs.manPrincipalId
+module keyVaultModule './infra/keyVault/keyVault.bicep' = {
+  name:'keyVaultDeploy'
+  params:{
+    partName: partName
+    location:location
   }
-}
-
-module roleAssignmentForSA 'modules/role-assignmentForStorageAccount.bicep' = {
-	name: 'role-assignment-sa'
-	params: {
-		principalId: managedIdModule.outputs.manPrincipalId
-		roleAssignmentName: guid(storageAccountModule.outputs.idStorage, managedIdModule.outputs.manPrincipalId, storageAccountModule.outputs.storageRoleName)
-		roleDefinitionId: storageAccountModule.outputs.storageRoleName
-		storageAccountName: storageAccountModule.outputs.storageName
+  }
+  
+  
+	module roleAssignmentForKV './infra/rolAssKv/role-assignmentForKeyVault.bicep' = {
+		name: 'role-assignment-kv'
+		params: {
+			partName: partName
+			roleDefinitionId: keyVaultModule.outputs.keyVaultRoleDefinition
+			principalId: managedIdModule.outputs.manPrincipalId
+		}
 	}
-}
 
+	module roleAssignmentForSA './infra/roleAssSa/role-assignmentForStorageAccount.bicep' = {
+		name: 'role-assignment-sa'
+		params: {
+			partName: partName
+			principalId: managedIdModule.outputs.manPrincipalId
+		}
+	}
 
 
 
@@ -131,46 +132,46 @@ resource keyvault 'Microsoft.KeyVault/vaults@2023-07-01' existing = {
   scope: resourceGroup(subscription().subscriptionId,kvRgName) 
 }
 
-module serverDatabaseforsql 'modules/server-Database-SQL.bicep' = {
+module serverDatabaseforsql './infra/sqlDB/server-Database-SQL.bicep' = {
 	name: 'server-database-deployment'
 	params: {
 		DbName: databaseName
-		env: env
 		location: location
 		sqlAdministratorLogin: sqlAdminlogin
 		sqlAdministratorPassword: keyvault.getSecret('sqlPasswordAdmin')
 		webappIp: webApiCreation.outputs.webApiIp
+		partName: partName
 	}
 }
 
 
-module webApiCreation 'modules/application-web-api.bicep' = {
+module webApiCreation './infra/webApp/application-web-api.bicep' = {
 	name: 'web-api-deployment'
 	params: {
 		branch: branch
-		env: env
 		location: location
 		msiName: managedIdModule.outputs.manPrincipalName
 		repoURL: repoUrl
 		skuCapacity: skuApiServiceCapacity
 		skuName: skuApiServiceName
+		partName: partName
 	}
 }
 
 
-module apiInsights 'modules/insights-analytics-space.bicep' = {
+module apiInsights './infra/appInsight/insights-analytics-space.bicep' = {
 	name: 'appInsight-logspace-deployment'
 	params: {
-		env: env
+    partName: partName
 		location: location
-		webApiName: webApiCreation.outputs.webApiName
 	}
 }
 
-module appConfiguration 'modules/appservice-setConfiguration.bicep' = {
+
+module appConfiguration './infra/appConfig/appservice-setConfiguration.bicep' = {
 	name: 'set-configuration-for-api'
 	params: {
-		webApiName: webApiCreation.outputs.webApiName
+    partName: partName
 		apiConfigSet: apiConf
 		// funcAppName: functionApp.outputs.functionName
 		// funcAppConfigSet: funAppConf
@@ -178,12 +179,12 @@ module appConfiguration 'modules/appservice-setConfiguration.bicep' = {
 }
 
 
-module roleAssignmentForAppInsight 'modules/role-assignmentForAppInsight.bicep' = {
+module roleAssignmentForAppInsight './infra/roleAssInsight/role-assignmentForAppInsight.bicep' = {
 	name: 'role-assignment-insight'
 	params: {
+    partName: partName
 		ContributeRoleAssignmentName: guid(apiInsights.outputs.logSpaceId, managedIdModule.outputs.manPrincipalId, apiInsights.outputs.contributeRoleId)
 		ContributeRoleDefinitionId: apiInsights.outputs.contributeRoleId
-		logSpaceName: apiInsights.outputs.logSpaceName
 		principalId: managedIdModule.outputs.manPrincipalId
 		ReadRoleAssignmentName: guid(apiInsights.outputs.logSpaceId, managedIdModule.outputs.manPrincipalId, apiInsights.outputs.readRoleId)
 		ReadRoleDefinitionId: apiInsights.outputs.readRoleId
@@ -192,50 +193,47 @@ module roleAssignmentForAppInsight 'modules/role-assignmentForAppInsight.bicep' 
 
 
 
-module serviceBus 'modules/serviceBus-topics.bicep' = {
+module serviceBus './infra//sbTop/serviceBus-topics.bicep' = {
 	name: 'service-bus-deployment'
 	params: {
-		env: env
 		location: location 
+		partName: partName
 	}
 }
 
 
-module roleAssignmentForServiceBus 'modules/role-assignmentForServiceBus.bicep' = {
+
+module roleAssignmentForServiceBus './infra/roleAssSb/role-assignmentForServiceBus.bicep' = {
 	name: 'role-assignment-service-bus'
 	params: {
-		keyVaultName: keyVaultModule.outputs.keyVaultNameOut
+    partName: partName
 		principalId: managedIdModule.outputs.manPrincipalId
 		roleDefinitionId: serviceBus.outputs.sbSenderRoleDefinition
 		serviceBusId: serviceBus.outputs.serviceBusId
 	}
 }
 
-module functionApp 'modules/functionApp-integration.bicep' = {
+module functionApp './infra/funcApp/functionApp-integration.bicep' = {
 	name: 'function-app-deployment'
 	params: {
-		env: env
+    partName: partName
 		location: location
-		functionaAppName: functionAppName
-		storageAccountName: storageAccountModule.outputs.storageName
 		bindingName: bindingName
 		nameOfContainer: containerName
 	}
 }
 
-module roleAssignmentForfunctionApp 'modules/role-assignmentForFunctionApp.bicep' = {
+module roleAssignmentForfunctionApp './infra/roleAssFuncApp/role-assignmentForFunctionApp.bicep' = {
 	name: 'role-assignment-function-app'
 	params: {
+    partName: partName
 		principalId: functionApp.outputs.functionPrincipal
-		serviceBusServiceName: serviceBus.outputs.serviceBusName
-		storageServiceName: storageAccountModule.outputs.storageName
 		storageDataRoleAssignmentName: guid(functionApp.outputs.functionId, functionApp.outputs.functionPrincipal, functionApp.outputs.roleDefinitionForAppToStorage)
 		storageDataRoleDefinitionId: functionApp.outputs.roleDefinitionForAppToStorage
 		topicsListenerRoleAssignmentName: guid(functionApp.outputs.functionId, functionApp.outputs.functionPrincipal, serviceBus.outputs.sbListenRoleDefinition)
 		topicsListenerRoleDefinitionId: serviceBus.outputs.sbListenRoleDefinition
 	}
 }
-
 
 
 // module addSecretInKeyVault 'modules/KeyvaultSecrets.bicep' = {

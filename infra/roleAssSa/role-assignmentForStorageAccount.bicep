@@ -1,6 +1,3 @@
-@description('the id of the role to assign')
-param roleDefinitionId string
-
 @description('the principal id, allows to connect on behalf of the user')
 param principalId string
 
@@ -29,6 +26,6 @@ resource roleAssignmentForStorageAccount 'Microsoft.Authorization/roleAssignment
 	scope:storage
 	properties: {
 		principalId: principalId
-		roleDefinitionId: roleDefinitionId
+		roleDefinitionId: storageBlobReaderRoleDefinition.id
 	}
 }

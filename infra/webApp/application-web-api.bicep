@@ -1,8 +1,6 @@
 @description('Specifies region for all resources')
 param location string
 
-param env string
-
 @description('Specifies app plan SKU')
 param skuName string //= 'F1'
 
@@ -17,7 +15,7 @@ param msiName string
 param partName string 
 
 var appServiceName= 'as-${partName}'
-var webAppName= 'wa-${partName}'
+var webApiName= 'wa-${partName}'
 
 
 @secure()
@@ -46,7 +44,6 @@ resource hostingPlan 'Microsoft.Web/serverfarms@2020-12-01' = {
 }
 
 
-var webApiName = 'webapi-${env}-${location}'
 resource webApi 'Microsoft.Web/sites@2023-01-01' = {
   name: webApiName
   location: location

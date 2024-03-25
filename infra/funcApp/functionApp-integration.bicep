@@ -3,9 +3,6 @@ param location string
 @description('component name used for resource name')
 param partName string 
 
-@description('storage name.')
-param storageAccountName string
-
 @description('name of the container to be created')
 param nameOfContainer string
 
@@ -15,11 +12,9 @@ param bindingName string
 
 var functionAppName = 'fa-${partName}'
 var appServicePlanName = 'as-${partName}'
-// var appInsightsName = 'AppInsights-${functionAppName}-${appNameSuffix}'
-// var storageAccountName = 'fnstor${replace(appNameSuffix, '-', '')}'
 var functionName = 'fn${partName}'
 var functionRuntime = 'dotnet'
-// var workspaceName = 'workspace-${appNameSuffix}'
+var storageAccountName = 'sa${replace(partName,'-','')}'
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2023-01-01' existing = {
   name: storageAccountName
