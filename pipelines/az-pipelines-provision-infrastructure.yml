@@ -34,7 +34,7 @@ stages:
       owner: "$(owner)"
       costCenter: "$(costCenter)"
       application: "$(application)"
-      desc: "$(descp)"
+      desc: "$(desc)"
       repo: "$(repo)"
       appShort: "$(appShort)"
       domainShort: "$(domainShort)"
