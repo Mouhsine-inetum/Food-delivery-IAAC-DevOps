@@ -21,19 +21,6 @@ jobs:
   - job: "${{ parameters.job }}"
     displayName: "Job: Provision Infrstructure - ${{ parameters.jobResources }}"
     steps:
-      - task: AzurePowerShell@5
-        inputs:
-          azureSubscription: "Visual Studio Professional Subscription(0f7a3b62-c1a4-4aa9-97c3-3bf5f497b5ab)"
-          ScriptType: "FilePath"
-          ScriptPath: "$(System.DefaultWorkingDirectory)/scripts/create-resource-group.ps1"
-          ScriptArguments: '-location westeurope `
-            -rgName "${{parameters.rgName}}" `
-            -owner "${{parameters.owner}}" `
-            -costCenter "${{parameters.costCenter}}" `
-            -application "${{parameters.application}}" `
-            -description "${{parameters.desc}}" `
-            -repo "${{parameters.repo}}"'
-          azurePowerShellVersion: "LatestVersion"
 
       - task: AzureResourceManagerTemplateDeployment@3
         inputs:
