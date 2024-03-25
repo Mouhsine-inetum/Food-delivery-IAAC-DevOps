@@ -18,6 +18,13 @@ $tag= @{
 
 try {
     Write-Host "Now creating the rg"
+    if (Get-AzResourceGroup -Name $rgName -ErrorAction SilentlyContinue) {
+        # Resource group exists, override it
+        Write-Host "Resource group '$rgName' already exists. Overriding..."
+    
+        # Remove the existing resource group
+        Remove-AzResourceGroup -Name $resourceGroupName -Force
+    }
     $deployment= New-AzResourceGroup -Name "${rgName}" -Location "${location}" -Tag ${tag}
     Write-Host $deployment
 }
