@@ -35,6 +35,8 @@ parameters:
     type: string
   - name: version
     type: string
+  - name: partName
+    type: string
   - name: env
     type: string
     values:
@@ -42,10 +44,6 @@ parameters:
       - acc
       - prod
     default: dev
-
-variables:
-  - name: partName
-    value: "$(companyShort)-$(domainShort)-$(appShort)-$(locationAbbr)-${{ parameters.environment }}-$(version)"
 
 stages:
   - stage: "${{ parameters.stage }}"
@@ -70,4 +68,4 @@ stages:
             -repo "${{ parameters.repo }}"
             -env "${{ parameters.env }}"
             -version "${{ parameters.version }}"
-            -partName "$(partName)"
+            -partName "${{parameters.partName}}"

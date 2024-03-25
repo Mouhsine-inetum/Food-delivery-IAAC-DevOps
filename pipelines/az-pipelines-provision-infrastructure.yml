@@ -40,6 +40,7 @@ stages:
       domainShort: "$(domainShort)"
       version: "$(version)"
       env: "${{ parameters.environment }}"
+      partName: "$(companyShort)-$(domainShort)-$(appShort)-$(locationAbbr)-${{ parameters.environment }}-$(version)"
 
   # - template: "./templates/stages/stage-deploy-infra.yml@self"
   #   parameters:
