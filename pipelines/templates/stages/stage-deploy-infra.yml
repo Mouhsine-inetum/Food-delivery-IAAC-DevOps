@@ -53,7 +53,7 @@ stages:
     jobs:
       - template: "../jobs/job-deploy-rg.yml@self"
         parameters:
-          job: "JobDeployInfrastructure"
+          job: "JobDeployRg"
           jobResources: "${{ parameters.resource }}"
           serviceConnection: "${{ parameters.serviceConnection }}"
           rgName: ${{ parameters.rgName }}
