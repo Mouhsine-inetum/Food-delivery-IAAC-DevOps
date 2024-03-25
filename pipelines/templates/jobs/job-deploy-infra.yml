@@ -20,6 +20,8 @@ parameters:
 jobs:
   - job: "${{ parameters.job }}"
     displayName: "Job: Provision Infrstructure - ${{ parameters.jobResources }}"
+    dependsOn: "JobDeployRg"
+    condition: "succeeded()"
     steps:
 
       - task: AzureResourceManagerTemplateDeployment@3
