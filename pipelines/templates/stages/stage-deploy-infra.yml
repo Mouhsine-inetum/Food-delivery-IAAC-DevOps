@@ -56,19 +56,13 @@ stages:
           job: "JobDeployInfrastructure"
           jobResources: "${{ parameters.resource }}"
           serviceConnection: "${{ parameters.serviceConnection }}"
-          infraPath: "${{ parameters.infraPath }}"
-          parametersPath: "${{ parameters.parametersPath }}"
           rgName: ${{ parameters.rgName }}
           location: ${{ parameters.location }}
-          overrideParameters: >-
-            -owner "${{ parameters.owner }}"
-            -costCenter "${{ parameters.costCenter }}"
-            -application "${{ parameters.application }}"
-            -descp "${{ parameters.desc }}"
-            -repo "${{ parameters.repo }}"
-            -env "${{ parameters.env }}"
-            -version "${{ parameters.version }}"
-            -partName "${{parameters.partName}}"
+          owner: "${{ parameters.owner }}"
+          costCenter : "${{ parameters.costCenter }}"
+          application : "${{ parameters.application }}"
+          descp : "${{ parameters.desc }}"
+          repo:  "${{ parameters.repo }}"
 
       - template: "../jobs/job-deploy-infra.yml@self"
         parameters:

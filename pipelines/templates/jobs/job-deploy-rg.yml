@@ -5,8 +5,6 @@ parameters:
     type: string
   - name: serviceConnection
     type: string
-  - name: infraPath
-    type: string
   - name: rgName
     type: string
   - name: location
