@@ -41,6 +41,10 @@ parameters:
       - prod
     default: dev
 
+variables:
+  - name: partName
+    value: "$(companyShort)-$(domainShort)-$(appShort)-$(locationAbbr)-${{ parameters.environment }}-$(version)"
+
 stages:
   - stage: "${{ parameters.stage }}"
     displayName: "Stage: Provision Infrastructure - ${{ parameters.resource }}"
@@ -61,7 +65,6 @@ stages:
             -application "${{ parameters.application }}"
             -descp "${{ parameters.desc }}"
             -repo "${{ parameters.repo }}"
-            -appShort "${{ parameters.appShort }}"
-            -domainShort "${{ parameters.domainShort }}"
             -env "${{ parameters.env }}"
             -version "${{ parameters.version }}"
+            -partName "$(partName)"

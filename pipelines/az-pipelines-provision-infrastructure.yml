@@ -40,23 +40,23 @@ stages:
       version: "$(version)"
       env: "${{ parameters.environment }}"
 
-  - template: "./templates/stages/stage-deploy-infra.yml@self"
-    parameters:
-      stage: StageProvisionInfrastructureDataFactory
-      dependsOn:
-        - StageProvisionInfrastructureLogAnalytics
-      condition: succeeded()
-      resource: "Data Factory"
-      serviceConnection: "${{ parameters.serviceConnection }}"
-      rgName: "$(rgName)"
-      infraPath: "infra/data-factory"
-      location: "$(location)"
-      owner: "$(owner)"
-      costCenter: "$(costCenter)"
-      application: "$(application)"
-      desc: "$(desc)"
-      repo: "$(repo)"
-      appShort: "$(appShort)"
-      domainShort: "$(domainShort)"
-      version: "$(version)"
-      env: "${{ parameters.environment }}"
+  # - template: "./templates/stages/stage-deploy-infra.yml@self"
+  #   parameters:
+  #     stage: StageProvisionInfrastructureDataFactory
+  #     dependsOn:
+  #       - StageProvisionInfrastructureLogAnalytics
+  #     condition: succeeded()
+  #     resource: "Data Factory"
+  #     serviceConnection: "${{ parameters.serviceConnection }}"
+  #     rgName: "$(rgName)"
+  #     infraPath: "infra/data-factory"
+  #     location: "$(location)"
+  #     owner: "$(owner)"
+  #     costCenter: "$(costCenter)"
+  #     application: "$(application)"
+  #     desc: "$(desc)"
+  #     repo: "$(repo)"
+  #     appShort: "$(appShort)"
+  #     domainShort: "$(domainShort)"
+  #     version: "$(version)"
+  #     env: "${{ parameters.environment }}"

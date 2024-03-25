@@ -4,6 +4,9 @@ param location string = resourceGroup().location
 @description('the component structure that will be used in name following a convention')
 param partName string
 
+@description('version of deployment')
+param version int
+
 @allowed([
 	'dev'
 	'acc'
@@ -12,6 +15,13 @@ param partName string
 @description('Environment in which the dploy is affected')
 param env string
 
+
+//tag infos
+param owner string
+param costCenter string
+param application string
+param descp string
+param repo string
 
 //sql server-db
 @maxLength(20)
@@ -77,6 +87,15 @@ param containerName string
 
 // @description('the domain of the client that will conenct to the api')
 // param funAppConf array
+
+//variables
+var tag = {
+  owner: owner
+  costCenter: costCenter
+  application: application
+  descp: descp
+  repo: repo
+}
 
 
 //modules :

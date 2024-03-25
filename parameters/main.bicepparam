@@ -13,13 +13,16 @@ param apiConf = [
     value: 'https://localhost:44373'
   }
 ]
-
 param containerName = 'products'
 param repoUrl = 'https://github.com/Mouhsine-inetum/Food-delivery-server-alternate.git'
 param skuApiServiceCapacity = 3
 param skuApiServiceName = 'B1'
 param functionAppName = 'fa-products'
 param bindingName = 'messages'
-
-
-
+param application = ''
+param costCenter = ''
+param descp = ''
+param owner = ''
+param repo = ''
+param version = 1
+param partName = ''
