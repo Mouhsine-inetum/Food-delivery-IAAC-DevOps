@@ -22,7 +22,7 @@ parameters:
 
 jobs:
   - job: "${{ parameters.job }}"
-    displayName: "Job: Provision Infrstructure - ${{ parameters.jobResources }}"
+    displayName: "Job: Provision Infrstructure RG - ${{ parameters.jobResources }}"
     steps:
       - task: AzurePowerShell@5
         inputs:

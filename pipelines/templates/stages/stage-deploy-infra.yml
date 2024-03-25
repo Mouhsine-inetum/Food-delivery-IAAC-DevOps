@@ -48,8 +48,8 @@ parameters:
 stages:
   - stage: "${{ parameters.stage }}"
     displayName: "Stage: Provision Infrastructure - ${{ parameters.resource }}"
-    dependsOn: "${{ parameters.dependsOn }}"
-    condition: "${{ parameters.condition }}"
+    # dependsOn: "${{ parameters.dependsOn }}"
+    # condition: "${{ parameters.condition }}"
     jobs:
       - template: "../jobs/job-deploy-rg.yml@self"
         parameters:

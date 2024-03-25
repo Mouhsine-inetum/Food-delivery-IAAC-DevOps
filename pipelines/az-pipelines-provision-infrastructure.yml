@@ -24,8 +24,8 @@ variables:
 stages:
   - template: "./templates/stages/stage-deploy-infra.yml@self"
     parameters:
-      stage: StageProvisionInfrastructureLogAnalytics
-      resource: "Log Analytics"
+      stage: StageProvisionInfrastructure
+      resource: "full infrastructures"
       serviceConnection: "${{ parameters.serviceConnection }}"
       rgName: "$(rgName)"
       infraPath: "."
