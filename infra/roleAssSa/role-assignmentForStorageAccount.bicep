@@ -5,7 +5,7 @@ param principalId string
 param partName string 
 
 
-var storageAccountName = 'sa${replace(partName,'-','')}'
+var storageAccountName = 'sa${toLower(replace(partName,'-',''))}'
 
 resource storage 'Microsoft.Storage/storageAccounts@2023-01-01' existing = {
 	name: storageAccountName

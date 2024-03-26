@@ -21,7 +21,7 @@ resource keyVaultAdministratorRoleDefinition 'Microsoft.Authorization/roleDefini
 }
 
 
-var kvName= 'kv${replace(partName,'-','')}'
+var kvName= 'kv${toLower(replace(partName,'-',''))}'
 
 resource keyVault 'Microsoft.KeyVault/vaults@2023-02-01' = {
   name: kvName

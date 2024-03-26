@@ -6,7 +6,7 @@ param principalId string
 @description('component name used for resource name')
 param partName string 
 
-var keyVaultName = 'kv${replace(partName,'-','')}'
+var keyVaultName = 'kv${toLower(replace(partName,'-',''))}'
 
 resource keyVault 'Microsoft.KeyVault/vaults@2023-02-01' existing = {
   name: keyVaultName

@@ -24,4 +24,4 @@ param descp = ''
 param owner = ''
 param repo = ''
 param version = 001
-param partName = ''
+param partName = 'ir-Tsg-pfu-we-dev-001'

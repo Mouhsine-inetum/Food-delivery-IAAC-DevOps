@@ -13,7 +13,7 @@ param topicsListenerRoleDefinitionId string
 @description('principal id to will be given access to the resouurce')
 param principalId string
 
-var storageServiceName = 'sa${replace(partName,'-','')}'
+var storageServiceName = 'sa${toLower(replace(partName,'-',''))}'
 
 var serviceBusName = 'sbn-${partName}'
 

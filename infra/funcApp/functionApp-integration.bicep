@@ -14,7 +14,7 @@ var functionAppName = 'fa-${partName}'
 var appServicePlanName = 'as-${partName}'
 var functionName = 'fn${partName}'
 var functionRuntime = 'dotnet'
-var storageAccountName = 'sa${replace(partName,'-','')}'
+var storageAccountName = 'sa${toLower(replace(partName,'-',''))}'
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2023-01-01' existing = {
   name: storageAccountName
