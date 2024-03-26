@@ -1,11 +1,12 @@
 {
-    "$schema": "https://schema.microsoft.com/1.0/deploymentParameters.json#",
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
       "env": {
         "value": "dev"
       },
       "keyVaultName": {
+        
         "value": "kvfoodeliverywesteurope"
       },
       "kvRgName": {

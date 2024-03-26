@@ -39,7 +39,6 @@ param sqlAdminlogin string
 
 //keyvault 
 @description('name of the keyvault')
-@secure()
 param keyVaulName string
 
 
