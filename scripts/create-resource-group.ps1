@@ -23,14 +23,13 @@ try {
     
         # Remove the existing resource group
         # Remove-AzResourceGroup -Name $rgName -Force
-
+}
 else {
     <# Action when all if and elseif conditions are false #>
     Write-Host "Now creating the rg"
     $deployment= New-AzResourceGroup -Name "${rgName}" -Location "${location}" -Tag ${tag}
     Write-Host $deployment
-}   
-}
+} 
   
 }
 catch {
