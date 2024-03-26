@@ -24,7 +24,6 @@ jobs:
   - job: "${{ parameters.job }}"
     displayName: "Job: Provision Infrstructure RG - ${{ parameters.jobResources }}"
     steps:
-      - checkout: self
       - task: AzurePowerShell@5
         inputs:
           azureSubscription: "Visual Studio Professional Subscription(0f7a3b62-c1a4-4aa9-97c3-3bf5f497b5ab)"

@@ -23,7 +23,7 @@ jobs:
     dependsOn: "JobDeployRg"
     condition: "succeeded()"
     steps:
-
+      - checkout: self
       - task: AzureResourceManagerTemplateDeployment@3
         inputs:
           deploymentScope: "Resource Group"
