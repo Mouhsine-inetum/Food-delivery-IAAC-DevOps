@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.21.1.54444",
-      "templateHash": "10603301873265427121"
+      "templateHash": "17578307323403780009"
     }
   },
   "parameters": {
@@ -71,7 +71,7 @@
       }
     },
     "keyVaulName": {
-      "type": "securestring",
+      "type": "string",
       "metadata": {
         "description": "name of the keyvault"
       }
