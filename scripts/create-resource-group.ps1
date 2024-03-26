@@ -23,10 +23,15 @@ try {
         Write-Host "Resource group '$rgName' already exists. Overriding..."
     
         # Remove the existing resource group
-        Remove-AzResourceGroup -Name $rgName -Force
-    }
+        # Remove-AzResourceGroup -Name $rgName -Force
+
+else {
+    <# Action when all if and elseif conditions are false #>
     $deployment= New-AzResourceGroup -Name "${rgName}" -Location "${location}" -Tag ${tag}
     Write-Host $deployment
+}   
+}
+  
 }
 catch {
     $message = $_.Exception.Message
