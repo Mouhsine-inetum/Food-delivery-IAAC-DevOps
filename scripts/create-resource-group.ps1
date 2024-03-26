@@ -23,7 +23,7 @@ try {
         Write-Host "Resource group '$rgName' already exists. Overriding..."
     
         # Remove the existing resource group
-        Remove-AzResourceGroup -Name $resourceGroupName -Force
+        Remove-AzResourceGroup -Name $rgName -Force
     }
     $deployment= New-AzResourceGroup -Name "${rgName}" -Location "${location}" -Tag ${tag}
     Write-Host $deployment
