@@ -97,7 +97,7 @@ var tag = {
 
 //modules :
 
-module managedIdModule './infra/managedId/managedId.bicep' = {
+module managedIdModule './modules/managedId/managedId.bicep' = {
 	name: 'managedIdDeploy'
 	params: {
 		location: location
@@ -106,7 +106,7 @@ module managedIdModule './infra/managedId/managedId.bicep' = {
 }
 
 
-module storageAccountModule './infra/sa/storageAccount.bicep' = {
+module storageAccountModule './modules/sa/storageAccount.bicep' = {
 	name: 'storageAccountDeploy'
 	params: {
 		location: location
@@ -115,7 +115,7 @@ module storageAccountModule './infra/sa/storageAccount.bicep' = {
 	}
 }
 
-module keyVaultModule './infra/keyVault/keyVault.bicep' = {
+module keyVaultModule './modules/keyVault/keyVault.bicep' = {
   name:'keyVaultDeploy'
   params:{
     partName: partName
@@ -124,7 +124,7 @@ module keyVaultModule './infra/keyVault/keyVault.bicep' = {
   }
   
   
-	module roleAssignmentForKV './infra/rolAssKv/role-assignmentForKeyVault.bicep' = {
+	module roleAssignmentForKV './modules/rolAssKv/role-assignmentForKeyVault.bicep' = {
 		name: 'role-assignment-kv'
 		params: {
 			partName: partName
@@ -133,7 +133,7 @@ module keyVaultModule './infra/keyVault/keyVault.bicep' = {
 		}
 	}
 
-	module roleAssignmentForSA './infra/roleAssSa/role-assignmentForStorageAccount.bicep' = {
+	module roleAssignmentForSA './modules/roleAssSa/role-assignmentForStorageAccount.bicep' = {
 		name: 'role-assignment-sa'
 		params: {
 			partName: partName
@@ -148,7 +148,7 @@ resource keyvault 'Microsoft.KeyVault/vaults@2023-07-01' existing = {
   scope: resourceGroup(subscription().subscriptionId,kvRgName) 
 }
 
-module serverDatabaseforsql './infra/sqlDB/server-Database-SQL.bicep' = {
+module serverDatabaseforsql './modules/sqlDB/server-Database-SQL.bicep' = {
 	name: 'server-database-deployment'
 	params: {
 		DbName: databaseName
@@ -161,7 +161,7 @@ module serverDatabaseforsql './infra/sqlDB/server-Database-SQL.bicep' = {
 }
 
 
-module webApiCreation './infra/webApp/application-web-api.bicep' = {
+module webApiCreation './modules/webApp/application-web-api.bicep' = {
 	name: 'web-api-deployment'
 	params: {
 		branch: branch
@@ -175,7 +175,7 @@ module webApiCreation './infra/webApp/application-web-api.bicep' = {
 }
 
 
-module apiInsights './infra/appInsight/insights-analytics-space.bicep' = {
+module apiInsights './modules/appInsight/insights-analytics-space.bicep' = {
 	name: 'appInsight-logspace-deployment'
 	params: {
     partName: partName
@@ -184,7 +184,7 @@ module apiInsights './infra/appInsight/insights-analytics-space.bicep' = {
 }
 
 
-module appConfiguration './infra/appConfig/appservice-setConfiguration.bicep' = {
+module appConfiguration './modules/appConfig/appservice-setConfiguration.bicep' = {
 	name: 'set-configuration-for-api'
 	params: {
     partName: partName
@@ -195,7 +195,7 @@ module appConfiguration './infra/appConfig/appservice-setConfiguration.bicep' = 
 }
 
 
-module roleAssignmentForAppInsight './infra/roleAssInsight/role-assignmentForAppInsight.bicep' = {
+module roleAssignmentForAppInsight './modules/roleAssInsight/role-assignmentForAppInsight.bicep' = {
 	name: 'role-assignment-insight'
 	params: {
     partName: partName
@@ -209,7 +209,7 @@ module roleAssignmentForAppInsight './infra/roleAssInsight/role-assignmentForApp
 
 
 
-module serviceBus './infra//sbTop/serviceBus-topics.bicep' = {
+module serviceBus './modules//sbTop/serviceBus-topics.bicep' = {
 	name: 'service-bus-deployment'
 	params: {
 		location: location 
@@ -219,7 +219,7 @@ module serviceBus './infra//sbTop/serviceBus-topics.bicep' = {
 
 
 
-module roleAssignmentForServiceBus './infra/roleAssSb/role-assignmentForServiceBus.bicep' = {
+module roleAssignmentForServiceBus './modules/roleAssSb/role-assignmentForServiceBus.bicep' = {
 	name: 'role-assignment-service-bus'
 	params: {
     partName: partName
@@ -229,7 +229,7 @@ module roleAssignmentForServiceBus './infra/roleAssSb/role-assignmentForServiceB
 	}
 }
 
-module functionApp './infra/funcApp/functionApp-integration.bicep' = {
+module functionApp './modules/funcApp/functionApp-integration.bicep' = {
 	name: 'function-app-deployment'
 	params: {
     partName: partName
@@ -239,7 +239,7 @@ module functionApp './infra/funcApp/functionApp-integration.bicep' = {
 	}
 }
 
-module roleAssignmentForfunctionApp './infra/roleAssFuncApp/role-assignmentForFunctionApp.bicep' = {
+module roleAssignmentForfunctionApp './modules/roleAssFuncApp/role-assignmentForFunctionApp.bicep' = {
 	name: 'role-assignment-function-app'
 	params: {
     partName: partName
