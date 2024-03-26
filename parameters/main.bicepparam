@@ -24,5 +24,5 @@ param costCenter = ''
 param descp = ''
 param owner = ''
 param repo = ''
-param version = 1
+param version = 001
 param partName = ''

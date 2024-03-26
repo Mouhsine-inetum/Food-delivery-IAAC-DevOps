@@ -76,9 +76,6 @@ param skuApiServiceName string
 
 // function app
 
-@description('name of the function app')
-param functionAppName string
-
 @description('the binding type required for the function')
 param bindingName string 
 
