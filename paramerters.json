@@ -1,0 +1,72 @@
+{
+    "$schema": "https://schema.microsoft.com/1.0/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "env": {
+        "value": "dev"
+      },
+      "keyVaultName": {
+        "value": "kvfoodeliverywesteurope"
+      },
+      "kvRgName": {
+        "value": "cloud-shell-storage-westeurope"
+      },
+      "location": {
+        "value": "westeurope"
+      },
+      "databaseName": {
+        "value": "db-sql-foodelivery"
+      },
+      "sqlAdminlogin": {
+        "value": "adminUser"
+      },
+      "branch": {
+        "value": "main"
+      },
+      "apiConf": {
+        "value": [
+          {
+            "name": "ClientSettings__ClientDomain",
+            "value": "https://localhost:44373"
+          }
+        ]
+      },
+      "containerName": {
+        "value": "products"
+      },
+      "repoUrl": {
+        "value": "https://github.com/Mouhsine-inetum/Food-delivery-server-alternate.git"
+      },
+      "skuApiServiceCapacity": {
+        "value": 3
+      },
+      "skuApiServiceName": {
+        "value": "B1"
+      },
+      "bindingName": {
+        "value": "messages"
+      },
+      "application": {
+        "value": ""
+      },
+      "costCenter": {
+        "value": ""
+      },
+      "descp": {
+        "value": ""
+      },
+      "owner": {
+        "value": ""
+      },
+      "repo": {
+        "value": ""
+      },
+      "version": {
+        "value": "001" 
+      },
+      "partName": {
+        "value": ""
+      }
+    }
+  }
+  

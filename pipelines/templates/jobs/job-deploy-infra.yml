@@ -23,7 +23,6 @@ jobs:
     dependsOn: "JobDeployRg"
     condition: "succeeded()"
     steps:
-      - checkout: self
       - task: AzureResourceManagerTemplateDeployment@3
         inputs:
           deploymentScope: "Resource Group"
@@ -32,7 +31,7 @@ jobs:
           resourceGroupName: "${{ parameters.rgName }}"
           location: "${{ parameters.location }}"
           templateLocation: "Linked artifact"
-          csmParametersFile: "${{ parameters.parametersPath }}/main.bicepparam"
-          csmFile: "${{ parameters.infraPath }}/main.bicep"
+          csmParametersFile: "${{ parameters.infraPath }}/parameters.json"
+          csmFile: "${{ parameters.infraPath }}/main.json"
           deploymentMode: "Incremental"
           overrideParameters: "${{parameters.overrideParameters}}"
