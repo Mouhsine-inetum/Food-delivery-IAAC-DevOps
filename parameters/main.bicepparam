@@ -17,7 +17,6 @@ param containerName = 'products'
 param repoUrl = 'https://github.com/Mouhsine-inetum/Food-delivery-server-alternate.git'
 param skuApiServiceCapacity = 3
 param skuApiServiceName = 'B1'
-param functionAppName = 'fa-products'
 param bindingName = 'messages'
 param application = ''
 param costCenter = ''
