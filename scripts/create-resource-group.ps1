@@ -17,7 +17,6 @@ $tag= @{
 }
 
 try {
-    Write-Host "Now creating the rg"
     if (Get-AzResourceGroup -Name $rgName -ErrorAction SilentlyContinue) {
         # Resource group exists, override it
         Write-Host "Resource group '$rgName' already exists. Overriding..."
@@ -27,6 +26,7 @@ try {
 
 else {
     <# Action when all if and elseif conditions are false #>
+    Write-Host "Now creating the rg"
     $deployment= New-AzResourceGroup -Name "${rgName}" -Location "${location}" -Tag ${tag}
     Write-Host $deployment
 }   
