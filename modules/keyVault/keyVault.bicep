@@ -11,6 +11,7 @@ param keyVaultSku object = {
   family: 'A'
 }
 
+@description('metadata of the resource')
 param tag object
 
 @description('Specifies the Azure location where the resources should be created.')

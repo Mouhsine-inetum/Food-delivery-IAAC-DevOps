@@ -2,6 +2,9 @@
 
 param location string
 
+@description('metadata of the resource')
+param tag object
+
 @description('component name used for resource name')
 param partName string 
 
@@ -17,6 +20,7 @@ var appinsightName ='ai-${partName}'
 resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2023-09-01' = {
   name: workspaceName
   location: location
+  tags: tag
   properties: {
     sku: {
       name: 'PerGB2018'

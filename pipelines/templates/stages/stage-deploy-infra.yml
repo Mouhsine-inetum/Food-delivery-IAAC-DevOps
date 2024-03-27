@@ -7,8 +7,6 @@ parameters:
   - name: condition
     type: string
     default: succeeded()
-  - name: resource
-    type: string
   - name: serviceConnection
     type: string
   - name: rgName
@@ -31,6 +29,9 @@ parameters:
     type: string
   - name: partName
     type: string
+  - name: resources
+    type: object
+    default: []
 
 stages:
   - stage: "${{ parameters.stage }}"
@@ -38,12 +39,16 @@ stages:
     dependsOn: "${{ parameters.dependsOn }}"
     condition: "${{ parameters.condition }}"
     jobs:
+
+      - ${{ each resource in parameters.resources }} :
+
       - template: "../jobs/job-deploy-infra.yml@self"
         parameters:
-          # job: "JobDeployInfrastructure"
-          # jobResources: "${{ parameters.resource }}"
+          job: "JobDeployInfra${{ resource.id }}"
+          resource: "${{ resource.name }}"
+          dependsOn: ${{ resource.dependencies }}
           serviceConnection: "${{ parameters.serviceConnection }}"
-          infraPath: "${{ parameters.infraPath }}"
+          infraPath: "${{ parameters.infraPath }}/${{resource.path}}"
           rgName: ${{ parameters.rgName }}
           location: ${{ parameters.location }}
           overrideParameters: >-
@@ -55,11 +60,4 @@ stages:
             -version "${{ parameters.version }}"
             -partName "${{ parameters.partName }}"
             -location "${{ parameters.location }}"
-          resources: 
-            - manIdName: "User Managed Identity"
-              job: "JobDeployInfrastructureManagedId"
-              path: "managedId"
-            - kvName: "key vault"
-              job: "JobDeployInfrastructureKeyVault"
-              path: "keyVault"
             

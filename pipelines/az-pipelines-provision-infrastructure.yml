@@ -43,7 +43,6 @@ stages:
       dependsOn: 
         - StageProvisionRG
       condition: "succeeded()"
-      resource: "key vault"
       serviceConnection: "${{ parameters.serviceConnection }}"
       rgName: "$(rgName)"
       infraPath: "infrastructure/"
@@ -55,6 +54,19 @@ stages:
       repo: "$(repo)"
       version: "$(version)"
       partName: "$(partName)"
+      resources: 
+      - manId: "UserManagedIdentity"
+        id: "UserManagedIdentity"
+        name: "User Managed Identity"
+        job: "JobDeployInfrastructureManagedId"
+        path: "managedId"
+        dependencies: []
+      - kv: "keyVault"
+        id: "keyVault"
+        name: "Key Vault"
+        job: "JobDeployInfrastructureKeyVault"
+        path: "keyVault"
+        dependencies: ["JobDeployInfraUserManagedIdentity"]
 
   # - template: "./templates/stages/stage-deploy-infra.yml@self"
   #   parameters:

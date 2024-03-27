@@ -115,6 +115,24 @@ module storageAccountModule '../modules/sa/storageAccount.bicep' = {
 	}
 }
 
+module keyVaultModule '../modules/keyVault/keyVault.bicep' = {
+  name:'keyVaultDeploy'
+  params:{
+		tag: tag
+    partName: partName
+    location:location
+  }
+  }
+  
+  
+	module roleAssignmentForKV '../modules/rolAssKv/role-assignmentForKeyVault.bicep' = {
+		name: 'role-assignment-kv'
+		params: {
+			partName: partName
+			roleDefinitionId: keyVaultModule.outputs.keyVaultRoleDefinition
+			principalId: managedIdModule.outputs.manPrincipalId
+		}
+	}
 
 	module roleAssignmentForSA '../modules/roleAssSa/role-assignmentForStorageAccount.bicep' = {
 		name: 'role-assignment-sa'
@@ -161,6 +179,7 @@ module webApiCreation '../modules/webApp/application-web-api.bicep' = {
 module apiInsights '../modules/appInsight/insights-analytics-space.bicep' = {
 	name: 'appInsight-logspace-deployment'
 	params: {
+		tag: tag
     partName: partName
 		location: location
 	}
