@@ -7,8 +7,6 @@ parameters:
     type: string
   - name: infraPath
     type: string
-  - name: parametersPath
-    type: string
   - name: rgName
     type: string
   - name: location
