@@ -46,7 +46,7 @@ stages:
       resource: "key vault"
       serviceConnection: "${{ parameters.serviceConnection }}"
       rgName: "$(rgName)"
-      infraPath: "infrastructure/keyVault"
+      infraPath: "infrastructure/"
       location: "$(location)"
       owner: "$(owner)"
       costCenter: "$(costCenter)"

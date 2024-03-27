@@ -1,8 +1,8 @@
 parameters:
-  - name: job
-    type: string
-  - name: jobResources
-    type: string
+  # - name: job
+  #   type: string
+  # - name: jobResources
+  #   type: string
   - name: serviceConnection
     type: string
   - name: infraPath
@@ -13,11 +13,15 @@ parameters:
     type: string
   - name: overrideParameters
     type: string
+  - name: resources
+    type: object
+    default: []
 
 
 jobs:
-  - job: "${{ parameters.job }}"
-    displayName: "Job: Provision Infrstructure - ${{ parameters.jobResources }}"
+- ${{ each resource in parameters.resources }} :
+  - job: "${{ resource.job }}"
+    displayName: "Job: Provision Infrstructure - ${{ resource.name }}"
     steps:
       - task: AzurePowerShell@5
         inputs:
@@ -25,7 +29,7 @@ jobs:
           ScriptType: "FilePath"
           ScriptPath: "$(System.DefaultWorkingDirectory)/scripts/compile-bicep-to-arm.ps1"
           ScriptArguments: "
-            -filePath $(System.DefaultWorkingDirectory)/${{ parameters.infraPath }} `
+            -filePath $(System.DefaultWorkingDirectory)/${{ resource.path }}/${{ parameters.infraPath }} `
             -bicepTemplate main.bicep `
             -outFile main.json"
           azurePowerShellVersion: "LatestVersion"
@@ -38,6 +42,6 @@ jobs:
           resourceGroupName: "${{ parameters.rgName }}"
           location: "${{ parameters.location }}"
           templateLocation: "Linked artifact"
-          csmFile: "${{ parameters.infraPath }}/main.json"
+          csmFile: "${{ parameters.infraPath }}/${{ resource.path }}/main.json"
           deploymentMode: "Incremental"
           overrideParameters: "${{parameters.overrideParameters}}"

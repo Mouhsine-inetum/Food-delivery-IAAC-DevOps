@@ -40,8 +40,8 @@ stages:
     jobs:
       - template: "../jobs/job-deploy-infra.yml@self"
         parameters:
-          job: "JobDeployInfrastructure"
-          jobResources: "${{ parameters.resource }}"
+          # job: "JobDeployInfrastructure"
+          # jobResources: "${{ parameters.resource }}"
           serviceConnection: "${{ parameters.serviceConnection }}"
           infraPath: "${{ parameters.infraPath }}"
           rgName: ${{ parameters.rgName }}
@@ -55,3 +55,11 @@ stages:
             -version "${{ parameters.version }}"
             -partName "${{ parameters.partName }}"
             -location "${{ parameters.location }}"
+          resources: 
+            - manIdName: "User Managed Identity"
+              job: "JobDeployInfrastructureManagedId"
+              path: "managedId"
+            - kvName: "key vault"
+              job: "JobDeployInfrastructureKeyVault"
+              path: "keyVault"
+            
