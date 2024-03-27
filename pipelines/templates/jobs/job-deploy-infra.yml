@@ -16,9 +16,6 @@ parameters:
   - name: overrideParameters
     type: string
 
-variables:
-  - name: basePath
-  - value: "$(System.DefaultWorkingDirectory)"
 
 jobs:
   - job: "${{ parameters.job }}"
