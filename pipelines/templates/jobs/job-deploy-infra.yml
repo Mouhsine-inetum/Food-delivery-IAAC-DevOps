@@ -16,9 +16,6 @@ parameters:
   - name: overrideParameters
     type: string
 
-variables:
-  - name: basePath
-  - value: "$(System.DefaultWorkingDirectory)"
 
 jobs:
   - job: "${{ parameters.job }}"
@@ -30,7 +27,7 @@ jobs:
         inputs:
           azureSubscription: "${{ parameters.serviceConnection }}"
           ScriptType: "FilePath"
-          ScriptPath: "$(basePath)/scripts/compile-bicep-to-arm.ps1"
+          ScriptPath: "$(System.DefaultWorkingDirectory)/scripts/compile-bicep-to-arm.ps1"
           ScriptArguments: "
             -filePath $(basePath)/${{ parameters.infraPath }} `
             -bicepTemplate main.bicep `
