@@ -16,6 +16,9 @@ parameters:
   - name: overrideParameters
     type: string
 
+variables:
+  - name: basePath
+  - value: "$(System.DefaultWorkingDirectory)"
 
 jobs:
   - job: "${{ parameters.job }}"
@@ -29,7 +32,7 @@ jobs:
           ScriptType: "FilePath"
           ScriptPath: "$(System.DefaultWorkingDirectory)/scripts/compile-bicep-to-arm.ps1"
           ScriptArguments: "
-            -filePath $(basePath)/${{ parameters.infraPath }} `
+            -filePath $(System.DefaultWorkingDirectory)/${{ parameters.infraPath }} `
             -bicepTemplate main.bicep `
             -outFile main.json"
           azurePowerShellVersion: "LatestVersion"
