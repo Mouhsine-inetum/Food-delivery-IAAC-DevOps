@@ -29,7 +29,7 @@ parameters:
     type: string
   - name: partName
     type: string
-  - name: resource
+  - name: resourceBase
     type: string
   - name: resources
     type: object
@@ -37,7 +37,7 @@ parameters:
 
 stages:
   - stage: "${{ parameters.stage }}"
-    displayName: "Stage: Provision Infrastructure - ${{ parameters.resource }}"
+    displayName: "Stage: Provision Infrastructure - ${{ parameters.resourceBase }}"
     dependsOn: "${{ parameters.dependsOn }}"
     condition: "${{ parameters.condition }}"
     jobs:

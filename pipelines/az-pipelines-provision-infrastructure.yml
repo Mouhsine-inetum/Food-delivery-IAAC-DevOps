@@ -54,7 +54,7 @@ stages:
       repo: "$(repo)"
       version: "$(version)"
       partName: "$(partName)"
-      resource: "$(application)"
+      resourceBase: "$(application)"
       resources: 
       - manId: "UserManagedIdentity"
         id: "UserManagedIdentity"
