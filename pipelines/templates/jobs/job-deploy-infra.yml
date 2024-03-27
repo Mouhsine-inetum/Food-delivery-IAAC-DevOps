@@ -44,6 +44,6 @@ jobs:
           resourceGroupName: "${{ parameters.rgName }}"
           location: "${{ parameters.location }}"
           templateLocation: "Linked artifact"
-          csmFile: "${{ parameters.infraPath }}/${{ resource.path }}/main.json"
+          csmFile: "${{ parameters.infraPath }}/main.json"
           deploymentMode: "Incremental"
           overrideParameters: "${{parameters.overrideParameters}}"
