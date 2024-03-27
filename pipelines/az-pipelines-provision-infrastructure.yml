@@ -45,7 +45,7 @@ stages:
       condition: "succeeded()"
       serviceConnection: "${{ parameters.serviceConnection }}"
       rgName: "$(rgName)"
-      infraPath: "infrastructure/"
+      infraPath: "infrastructure"
       location: "$(location)"
       owner: "$(owner)"
       costCenter: "$(costCenter)"
@@ -54,6 +54,7 @@ stages:
       repo: "$(repo)"
       version: "$(version)"
       partName: "$(partName)"
+      resource: "$(application)"
       resources: 
       - manId: "UserManagedIdentity"
         id: "UserManagedIdentity"

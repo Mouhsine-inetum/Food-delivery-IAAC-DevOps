@@ -29,6 +29,8 @@ parameters:
     type: string
   - name: partName
     type: string
+  - name: resource
+    type: string
   - name: resources
     type: object
     default: []
