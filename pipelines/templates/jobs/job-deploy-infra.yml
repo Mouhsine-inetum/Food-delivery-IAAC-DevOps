@@ -31,7 +31,7 @@ jobs:
           ScriptType: "FilePath"
           ScriptPath: "$(System.DefaultWorkingDirectory)/scripts/compile-bicep-to-arm.ps1"
           ScriptArguments: "
-            -filePath $(System.DefaultWorkingDirectory)/${{ resource.path }}/${{ parameters.infraPath }} `
+            -filePath $(System.DefaultWorkingDirectory)/${{ parameters.infraPath }} `
             -bicepTemplate main.bicep `
             -outFile main.json"
           azurePowerShellVersion: "LatestVersion"
