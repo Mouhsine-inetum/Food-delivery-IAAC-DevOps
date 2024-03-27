@@ -1,7 +1,7 @@
 parameters:
   - name: job
     type: string
-  - name: resource
+  - name: resourceName
     type: string
   - name: serviceConnection
     type: string
@@ -17,36 +17,33 @@ parameters:
     type: object
     default: []
 
-
 jobs:
+  - job: "${{ parameters.job }}"
+    displayName: "Job: Provision Infrstructure - ${{ parameters.resource }}"
+    dependsOn:
+      - ${{ each dep in parameters.dependsOn }}:
+          - ${{ dep }}
+    condition: "succeeded()"
+    steps:
+      - task: AzurePowerShell@5
+        inputs:
+          azureSubscription: "${{ parameters.serviceConnection }}"
+          ScriptType: "FilePath"
+          ScriptPath: "$(System.DefaultWorkingDirectory)/scripts/compile-bicep-to-arm.ps1"
+          ScriptArguments: "
+            -filePath $(System.DefaultWorkingDirectory)/${{ resource.path }}/${{ parameters.infraPath }} `
+            -bicepTemplate main.bicep `
+            -outFile main.json"
+          azurePowerShellVersion: "LatestVersion"
 
-
-    - job: "${{ parameters.job }}"
-      displayName: "Job: Provision Infrstructure - ${{ parameters.resource }}"
-      dependsOn:
-          - ${{ each dep in parameters.dependsOn }} :
-            - ${{ dep }}
-      condition: "succeeded()"
-      steps:
-        - task: AzurePowerShell@5
-          inputs:
-            azureSubscription: "${{ parameters.serviceConnection }}"
-            ScriptType: "FilePath"
-            ScriptPath: "$(System.DefaultWorkingDirectory)/scripts/compile-bicep-to-arm.ps1"
-            ScriptArguments: "
-              -filePath $(System.DefaultWorkingDirectory)/${{ resource.path }}/${{ parameters.infraPath }} `
-              -bicepTemplate main.bicep `
-              -outFile main.json"
-            azurePowerShellVersion: "LatestVersion"
-            
-        - task: AzureResourceManagerTemplateDeployment@3
-          inputs:
-            deploymentScope: "Resource Group"
-            AzureResourceManagerConnection: "${{parameters.serviceConnection}}"
-            action: "Create Or Update Resource Group"
-            resourceGroupName: "${{ parameters.rgName }}"
-            location: "${{ parameters.location }}"
-            templateLocation: "Linked artifact"
-            csmFile: "${{ parameters.infraPath }}/${{ resource.path }}/main.json"
-            deploymentMode: "Incremental"
-            overrideParameters: "${{parameters.overrideParameters}}"
+      - task: AzureResourceManagerTemplateDeployment@3
+        inputs:
+          deploymentScope: "Resource Group"
+          AzureResourceManagerConnection: "${{parameters.serviceConnection}}"
+          action: "Create Or Update Resource Group"
+          resourceGroupName: "${{ parameters.rgName }}"
+          location: "${{ parameters.location }}"
+          templateLocation: "Linked artifact"
+          csmFile: "${{ parameters.infraPath }}/${{ resource.path }}/main.json"
+          deploymentMode: "Incremental"
+          overrideParameters: "${{parameters.overrideParameters}}"

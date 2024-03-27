@@ -20,7 +20,7 @@ variables:
     value: 001
   - name: rgName
     value: "rg-$(companyShort)-$(domainShort)-$(appShort)-$(locationAbbr)-${{ parameters.environment }}-$(version)"
-  - name : partName
+  - name: partName
     value: "$(companyShort)-$(domainShort)-$(appShort)-$(locationAbbr)-${{ parameters.environment }}-$(version)"
 
 stages:
@@ -40,7 +40,7 @@ stages:
   - template: "./templates/stages/stage-deploy-infra.yml@self"
     parameters:
       stage: StageProvisionInfrastructure
-      dependsOn: 
+      dependsOn:
         - StageProvisionRG
       condition: "succeeded()"
       serviceConnection: "${{ parameters.serviceConnection }}"
@@ -55,19 +55,19 @@ stages:
       version: "$(version)"
       partName: "$(partName)"
       resourceBase: "$(application)"
-      resources: 
-      - manId: "UserManagedIdentity"
-        id: "UserManagedIdentity"
-        name: "User Managed Identity"
-        job: "JobDeployInfrastructureManagedId"
-        path: "managedId"
-        dependencies: []
-      - kv: "keyVault"
-        id: "keyVault"
-        name: "Key Vault"
-        job: "JobDeployInfrastructureKeyVault"
-        path: "keyVault"
-        dependencies: ["JobDeployInfraUserManagedIdentity"]
+      resources:
+        - manId: "UserManagedIdentity"
+          id: "UserManagedIdentity"
+          name: "User Managed Identity"
+          job: "JobDeployInfrastructureManagedId"
+          path: "managedId"
+          dependencies: []
+        - kv: "keyVault"
+          id: "keyVault"
+          name: "Key Vault"
+          job: "JobDeployInfrastructureKeyVault"
+          path: "keyVault"
+          dependencies: ["JobDeployInfraUserManagedIdentity"]
 
   # - template: "./templates/stages/stage-deploy-infra.yml@self"
   #   parameters:

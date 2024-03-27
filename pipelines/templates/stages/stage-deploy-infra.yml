@@ -41,25 +41,22 @@ stages:
     dependsOn: "${{ parameters.dependsOn }}"
     condition: "${{ parameters.condition }}"
     jobs:
-
-      - ${{ each resource in parameters.resources }} :
-
-      - template: "../jobs/job-deploy-infra.yml@self"
-        parameters:
-          job: "JobDeployInfra${{ resource.id }}"
-          resource: "${{ resource.name }}"
-          dependsOn: ${{ resource.dependencies }}
-          serviceConnection: "${{ parameters.serviceConnection }}"
-          infraPath: "${{ parameters.infraPath }}/${{resource.path}}"
-          rgName: ${{ parameters.rgName }}
-          location: ${{ parameters.location }}
-          overrideParameters: >-
-            -owner "${{ parameters.owner }}"
-            -costCenter "${{ parameters.costCenter }}"
-            -application "${{ parameters.application }}"
-            -descp "${{ parameters.desc }}"
-            -repo "${{ parameters.repo }}"
-            -version "${{ parameters.version }}"
-            -partName "${{ parameters.partName }}"
-            -location "${{ parameters.location }}"
-            
+      - ${{ each resource in parameters.resources }}:
+          - template: "../jobs/job-deploy-infra.yml@self"
+            parameters:
+              job: "JobDeployInfra${{ resource.id }}"
+              resourceName: "${{ resource.name }}"
+              dependsOn: ${{ resource.dependencies }}
+              serviceConnection: "${{ parameters.serviceConnection }}"
+              infraPath: "${{ parameters.infraPath }}/${{resource.path}}"
+              rgName: ${{ parameters.rgName }}
+              location: ${{ parameters.location }}
+              overrideParameters: >-
+                -owner "${{ parameters.owner }}"
+                -costCenter "${{ parameters.costCenter }}"
+                -application "${{ parameters.application }}"
+                -descp "${{ parameters.desc }}"
+                -repo "${{ parameters.repo }}"
+                -version "${{ parameters.version }}"
+                -partName "${{ parameters.partName }}"
+                -location "${{ parameters.location }}"
