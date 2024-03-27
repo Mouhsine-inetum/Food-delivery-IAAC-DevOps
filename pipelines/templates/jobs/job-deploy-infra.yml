@@ -19,7 +19,7 @@ parameters:
 
 jobs:
   - job: "${{ parameters.job }}"
-    displayName: "Job: Provision Infrstructure - ${{ parameters.resource }}"
+    displayName: "Job: Provision Infrstructure - ${{ parameters.resourceName }}"
     dependsOn:
       - ${{ each dep in parameters.dependsOn }}:
           - ${{ dep }}
