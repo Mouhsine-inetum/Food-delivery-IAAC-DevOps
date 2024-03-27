@@ -20,27 +20,41 @@ variables:
     value: 001
   - name: rgName
     value: "rg-$(companyShort)-$(domainShort)-$(appShort)-$(locationAbbr)-${{ parameters.environment }}-$(version)"
+  - name : partName
+    value: "$(companyShort)-$(domainShort)-$(appShort)-$(locationAbbr)-${{ parameters.environment }}-$(version)"
 
 stages:
-  - template: "./templates/stages/stage-deploy-infra.yml@self"
+  - template: "./templates/stages/stage-deploy-rg.yml@self"
     parameters:
-      stage: StageProvisionInfrastructure
-      resource: "full infrastructures"
+      stage: StageProvisionRG
+      resource: "RG"
       serviceConnection: "${{ parameters.serviceConnection }}"
       rgName: "$(rgName)"
-      infraPath: "$(System.DefaultWorkingDirectory)"
-      parametersPath : "$(System.DefaultWorkingDirectory)/parameters"
       location: "$(location)"
       owner: "$(owner)"
       costCenter: "$(costCenter)"
       application: "$(application)"
       desc: "$(desc)"
       repo: "$(repo)"
-      appShort: "$(appShort)"
-      domainShort: "$(domainShort)"
+
+  - template: "./templates/stages/stage-deploy-infra.yml@self"
+    parameters:
+      stage: StageProvisionInfrastructure
+      dependsOn: 
+        - StageProvisionRG
+      condition: "succeeded()"
+      resource: "key vault"
+      serviceConnection: "${{ parameters.serviceConnection }}"
+      rgName: "$(rgName)"
+      infraPath: "infrastructure/keyVault"
+      location: "$(location)"
+      owner: "$(owner)"
+      costCenter: "$(costCenter)"
+      application: "$(application)"
+      desc: "$(desc)"
+      repo: "$(repo)"
       version: "$(version)"
-      env: "${{ parameters.environment }}"
-      partName: "$(companyShort)-$(domainShort)-$(appShort)-$(locationAbbr)-${{ parameters.environment }}-$(version)"
+      partName: "$(partName)"
 
   # - template: "./templates/stages/stage-deploy-infra.yml@self"
   #   parameters:

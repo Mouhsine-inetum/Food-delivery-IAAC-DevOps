@@ -5,7 +5,7 @@ param location string
 @description('component name used for resource name')
 param partName string 
 
-var managedIdentityName = 'uid-${partName}'
+var managedIdentityName = 'muid-${partName}'
 
 resource managedIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-31' = {
   name: managedIdentityName

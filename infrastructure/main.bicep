@@ -97,7 +97,7 @@ var tag = {
 
 //modules :
 
-module managedIdModule './modules/managedId/managedId.bicep' = {
+module managedIdModule '../modules/managedId/managedId.bicep' = {
 	name: 'managedIdDeploy'
 	params: {
 		location: location
@@ -106,7 +106,7 @@ module managedIdModule './modules/managedId/managedId.bicep' = {
 }
 
 
-module storageAccountModule './modules/sa/storageAccount.bicep' = {
+module storageAccountModule '../modules/sa/storageAccount.bicep' = {
 	name: 'storageAccountDeploy'
 	params: {
 		location: location
@@ -115,25 +115,8 @@ module storageAccountModule './modules/sa/storageAccount.bicep' = {
 	}
 }
 
-module keyVaultModule './modules/keyVault/keyVault.bicep' = {
-  name:'keyVaultDeploy'
-  params:{
-    partName: partName
-    location:location
-  }
-  }
-  
-  
-	module roleAssignmentForKV './modules/rolAssKv/role-assignmentForKeyVault.bicep' = {
-		name: 'role-assignment-kv'
-		params: {
-			partName: partName
-			roleDefinitionId: keyVaultModule.outputs.keyVaultRoleDefinition
-			principalId: managedIdModule.outputs.manPrincipalId
-		}
-	}
 
-	module roleAssignmentForSA './modules/roleAssSa/role-assignmentForStorageAccount.bicep' = {
+	module roleAssignmentForSA '../modules/roleAssSa/role-assignmentForStorageAccount.bicep' = {
 		name: 'role-assignment-sa'
 		params: {
 			partName: partName
@@ -148,7 +131,7 @@ resource keyvault 'Microsoft.KeyVault/vaults@2023-07-01' existing = {
   scope: resourceGroup(subscription().subscriptionId,kvRgName) 
 }
 
-module serverDatabaseforsql './modules/sqlDB/server-Database-SQL.bicep' = {
+module serverDatabaseforsql '../modules/sqlDB/server-Database-SQL.bicep' = {
 	name: 'server-database-deployment'
 	params: {
 		DbName: databaseName
@@ -161,7 +144,7 @@ module serverDatabaseforsql './modules/sqlDB/server-Database-SQL.bicep' = {
 }
 
 
-module webApiCreation './modules/webApp/application-web-api.bicep' = {
+module webApiCreation '../modules/webApp/application-web-api.bicep' = {
 	name: 'web-api-deployment'
 	params: {
 		branch: branch
@@ -175,7 +158,7 @@ module webApiCreation './modules/webApp/application-web-api.bicep' = {
 }
 
 
-module apiInsights './modules/appInsight/insights-analytics-space.bicep' = {
+module apiInsights '../modules/appInsight/insights-analytics-space.bicep' = {
 	name: 'appInsight-logspace-deployment'
 	params: {
     partName: partName
@@ -184,7 +167,7 @@ module apiInsights './modules/appInsight/insights-analytics-space.bicep' = {
 }
 
 
-module appConfiguration './modules/appConfig/appservice-setConfiguration.bicep' = {
+module appConfiguration '../modules/appConfig/appservice-setConfiguration.bicep' = {
 	name: 'set-configuration-for-api'
 	params: {
     partName: partName
@@ -195,7 +178,7 @@ module appConfiguration './modules/appConfig/appservice-setConfiguration.bicep' 
 }
 
 
-module roleAssignmentForAppInsight './modules/roleAssInsight/role-assignmentForAppInsight.bicep' = {
+module roleAssignmentForAppInsight '../modules/roleAssInsight/role-assignmentForAppInsight.bicep' = {
 	name: 'role-assignment-insight'
 	params: {
     partName: partName
@@ -209,7 +192,7 @@ module roleAssignmentForAppInsight './modules/roleAssInsight/role-assignmentForA
 
 
 
-module serviceBus './modules//sbTop/serviceBus-topics.bicep' = {
+module serviceBus '../modules//sbTop/serviceBus-topics.bicep' = {
 	name: 'service-bus-deployment'
 	params: {
 		location: location 
@@ -219,7 +202,7 @@ module serviceBus './modules//sbTop/serviceBus-topics.bicep' = {
 
 
 
-module roleAssignmentForServiceBus './modules/roleAssSb/role-assignmentForServiceBus.bicep' = {
+module roleAssignmentForServiceBus '../modules/roleAssSb/role-assignmentForServiceBus.bicep' = {
 	name: 'role-assignment-service-bus'
 	params: {
     partName: partName
@@ -229,7 +212,7 @@ module roleAssignmentForServiceBus './modules/roleAssSb/role-assignmentForServic
 	}
 }
 
-module functionApp './modules/funcApp/functionApp-integration.bicep' = {
+module functionApp '../modules/funcApp/functionApp-integration.bicep' = {
 	name: 'function-app-deployment'
 	params: {
     partName: partName
@@ -239,7 +222,7 @@ module functionApp './modules/funcApp/functionApp-integration.bicep' = {
 	}
 }
 
-module roleAssignmentForfunctionApp './modules/roleAssFuncApp/role-assignmentForFunctionApp.bicep' = {
+module roleAssignmentForfunctionApp '../modules/roleAssFuncApp/role-assignmentForFunctionApp.bicep' = {
 	name: 'role-assignment-function-app'
 	params: {
     partName: partName

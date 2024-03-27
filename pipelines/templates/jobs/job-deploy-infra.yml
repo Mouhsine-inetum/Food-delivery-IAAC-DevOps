@@ -16,6 +16,9 @@ parameters:
   - name: overrideParameters
     type: string
 
+variables:
+  - name: basePath
+  - value: "$(System.DefaultWorkingDirectory)"
 
 jobs:
   - job: "${{ parameters.job }}"
@@ -23,6 +26,17 @@ jobs:
     dependsOn: "JobDeployRg"
     condition: "succeeded()"
     steps:
+      - task: AzurePowerShell@5
+        inputs:
+          azureSubscription: "${{ parameters.serviceConnection }}"
+          ScriptType: "FilePath"
+          ScriptPath: "$(basePath)/scripts/compile-bicep-to-arm.ps1"
+          ScriptArguments: "
+            -filePath $(basePath)/${{ parameters.infraPath }} `
+            -bicepTemplate main.bicep `
+            -outFile main.json"
+          azurePowerShellVersion: "LatestVersion"
+          
       - task: AzureResourceManagerTemplateDeployment@3
         inputs:
           deploymentScope: "Resource Group"
@@ -31,7 +45,6 @@ jobs:
           resourceGroupName: "${{ parameters.rgName }}"
           location: "${{ parameters.location }}"
           templateLocation: "Linked artifact"
-          csmParametersFile: "./parameters.json"
-          csmFile: "./main.json"
+          csmFile: "${{ parameters.infraPath }}/main.json"
           deploymentMode: "Incremental"
           overrideParameters: "${{parameters.overrideParameters}}"

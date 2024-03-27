@@ -11,6 +11,8 @@ param keyVaultSku object = {
   family: 'A'
 }
 
+param tag object
+
 @description('Specifies the Azure location where the resources should be created.')
 param location string
 
@@ -26,6 +28,7 @@ var kvName= 'kv${toLower(replace(partName,'-',''))}'
 resource keyVault 'Microsoft.KeyVault/vaults@2023-02-01' = {
   name: kvName
   location: location
+  tags: tag
   properties: {
     enableRbacAuthorization: true
     tenantId: tenant().tenantId

@@ -15,8 +15,6 @@ parameters:
     type: string
   - name: infraPath
     type: string
-  - name: parametersPath
-    type: string
   - name: location
     type: string
   - name: owner
@@ -29,41 +27,17 @@ parameters:
     type: string
   - name: repo
     type: string
-  - name: appShort
-    type: string
-  - name: domainShort
-    type: string
   - name: version
     type: string
   - name: partName
     type: string
-  - name: env
-    type: string
-    values:
-      - dev
-      - acc
-      - prod
-    default: dev
 
 stages:
   - stage: "${{ parameters.stage }}"
     displayName: "Stage: Provision Infrastructure - ${{ parameters.resource }}"
-    # dependsOn: "${{ parameters.dependsOn }}"
-    # condition: "${{ parameters.condition }}"
+    dependsOn: "${{ parameters.dependsOn }}"
+    condition: "${{ parameters.condition }}"
     jobs:
-      - template: "../jobs/job-deploy-rg.yml@self"
-        parameters:
-          job: "JobDeployRg"
-          jobResources: "${{ parameters.resource }}"
-          serviceConnection: "${{ parameters.serviceConnection }}"
-          rgName: ${{ parameters.rgName }}
-          location: ${{ parameters.location }}
-          owner: "${{ parameters.owner }}"
-          costCenter : "${{ parameters.costCenter }}"
-          application : "${{ parameters.application }}"
-          desc : "${{ parameters.desc }}"
-          repo:  "${{ parameters.repo }}"
-
       - template: "../jobs/job-deploy-infra.yml@self"
         parameters:
           job: "JobDeployInfrastructure"
@@ -79,6 +53,6 @@ stages:
             -application "${{ parameters.application }}"
             -descp "${{ parameters.desc }}"
             -repo "${{ parameters.repo }}"
-            -env "${{ parameters.env }}"
             -version "${{ parameters.version }}"
-            -partName "${{parameters.partName}}"
+            -partName "${{ parameters.partName }}"
+            -location "${{ parameters.location }}"
