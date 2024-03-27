@@ -44,7 +44,6 @@ stages:
           jobResources: "${{ parameters.resource }}"
           serviceConnection: "${{ parameters.serviceConnection }}"
           infraPath: "${{ parameters.infraPath }}"
-          parametersPath: "${{ parameters.parametersPath }}"
           rgName: ${{ parameters.rgName }}
           location: ${{ parameters.location }}
           overrideParameters: >-
