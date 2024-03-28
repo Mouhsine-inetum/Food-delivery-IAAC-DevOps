@@ -77,7 +77,7 @@ stages:
           name: "Web Api"
           job: "JobDeployInfrastructureWebApp"
           path: "webApp"
-          dependencies: []
+          dependencies: [JobDeployInfraUserManagedIdentity]
           paramOverride: >-
             -branch "main"
             -repoUrl "https://github.com/Mouhsine-inetum/Food-delivery-server-alternate.git"
