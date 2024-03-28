@@ -1,8 +1,5 @@
 param location string
 
-@description('the name of the database')
-param DbName string
-
 @description('Specifies sql admin login')
 @secure()
 param sqlAdministratorLogin string

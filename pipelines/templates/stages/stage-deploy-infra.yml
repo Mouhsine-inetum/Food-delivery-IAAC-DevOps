@@ -60,3 +60,4 @@ stages:
                 -version "${{ parameters.version }}"
                 -partName "${{ parameters.partName }}"
                 -location "${{ parameters.location }}"
+                ${{ resource.paramOverride }}

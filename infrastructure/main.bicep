@@ -152,7 +152,6 @@ resource keyvault 'Microsoft.KeyVault/vaults@2023-07-01' existing = {
 module serverDatabaseforsql '../modules/sqlDB/server-Database-SQL.bicep' = {
 	name: 'server-database-deployment'
 	params: {
-		DbName: databaseName
 		location: location
 		sqlAdministratorLogin: sqlAdminlogin
 		sqlAdministratorPassword: keyvault.getSecret('sqlPasswordAdmin')

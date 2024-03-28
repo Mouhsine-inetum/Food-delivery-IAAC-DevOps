@@ -39,7 +39,7 @@ stages:
 
   - template: "./templates/stages/stage-deploy-infra.yml@self"
     parameters:
-      stage: StageProvisionInfrastructure
+      stage: StageProvisionInfrastructure_1
       dependsOn:
         - StageProvisionRG
       condition: "succeeded()"
@@ -67,7 +67,39 @@ stages:
           name: "Key Vault"
           job: "JobDeployInfrastructureKeyVault"
           path: "keyVault"
-          dependencies: ["JobDeployInfraUserManagedIdentity"]
+          dependencies: [JobDeployInfraUserManagedIdentity]
+          paramOverride: >-
+
+  - template: "./templates/stages/stage-deploy-infra.yml@self"
+    parameters:
+      stage: StageProvisionInfrastructure_2
+      dependsOn:
+        - StageProvisionInfrastructure_1
+      condition: "succeeded()"
+      serviceConnection: "${{ parameters.serviceConnection }}"
+      rgName: "$(rgName)"
+      infraPath: "infrastructure"
+      location: "$(location)"
+      owner: "$(owner)"
+      costCenter: "$(costCenter)"
+      application: "$(application)"
+      desc: "$(desc)"
+      repo: "$(repo)"
+      version: "$(version)"
+      partName: "$(partName)"
+      resourceBase: "$(application)"
+      resources:
+        - webApp: "webApp"
+          id: "webApp"
+          name: "Web Api"
+          job: "JobDeployInfrastructureWebApp"
+          path: "webApp"
+          dependencies: [JobDeployInfraUserManagedIdentity]
+          paramOverride: >-
+            -branch "main"
+            -repoUrl "https://github.com/Mouhsine-inetum/Food-delivery-server-alternate.git"
+            -skuApiServiceName "B1"
+            -skuApiServiceCapacity 3
 
   # - template: "./templates/stages/stage-deploy-infra.yml@self"
   #   parameters:
