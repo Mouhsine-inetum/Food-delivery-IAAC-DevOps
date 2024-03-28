@@ -9,7 +9,7 @@ param skuCapacity int //= 1
 
 
 @description('the name of the managed identity to access keyvault')
-param msiName string
+param muiId string
 
 @description('component name used for resource name')
 param partName string 
@@ -28,9 +28,6 @@ param branch string
 
 // var connStringName='FoodDeliveryDbConnectionString'
 
-resource msi 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-07-31-preview' existing = {
-  name: msiName
-}
 
 // Web App resources
 resource hostingPlan 'Microsoft.Web/serverfarms@2020-12-01' = {
@@ -58,7 +55,7 @@ resource webApi 'Microsoft.Web/sites@2023-01-01' = {
   identity: {
     type: 'UserAssigned'
     userAssignedIdentities: {
-      '${msi.id}': {}
+      '${muiId}': {}
     }
   }
 }

@@ -34,7 +34,7 @@ module webApiCreation '../../modules/webApp/application-web-api.bicep' = {
 	params: {
 		branch: branch
 		location: location
-		msiName: managedId.properties.principalId
+		muiId: managedId.id
 		repoURL: repoUrl
 		skuCapacity: skuApiServiceCapacity
 		skuName: skuApiServiceName
