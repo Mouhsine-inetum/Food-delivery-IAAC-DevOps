@@ -23,9 +23,7 @@ variables:
   - name: partName
     value: "$(companyShort)-$(domainShort)-$(appShort)-$(locationAbbr)-${{ parameters.environment }}-$(version)"
   - name: confSet
-    value: 
-      - name: "test"
-        value: "value"
+    value: '{ "name": "ClientSettings__ClientDomain", "value": "https://localhost:44373" }'
 
 stages:
   - template: "./templates/stages/stage-deploy-rg.yml@self"
