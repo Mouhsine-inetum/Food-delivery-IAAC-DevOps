@@ -54,7 +54,7 @@ stages:
       repo: "$(repo)"
       version: "$(version)"
       partName: "$(partName)"
-      resourceBase: "$(appShort)"
+      resourceBase: "storage"
       resources:
         - manId: "UserManagedIdentity"
           id: "UserManagedIdentity"
@@ -92,7 +92,7 @@ stages:
       repo: "$(repo)"
       version: "$(version)"
       partName: "$(partName)"
-      resourceBase: "$(appShort)"
+      resourceBase: "web"
       resources:
           - webApp: "webApp"
             id: "webApp"
