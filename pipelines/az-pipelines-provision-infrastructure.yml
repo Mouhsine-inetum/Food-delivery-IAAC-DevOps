@@ -60,17 +60,16 @@ stages:
           id: "UserManagedIdentity"
           name: "User Managed Identity"
           job: "JobDeployInfrastructureManagedId"
-          path: "managedId"
+          path: "ManagedId"
           dependencies: []
           paramOverride: >-
 
         - kv: "keyVault"
-          id: "keyVault"
+          id: "KeyVault"
           name: "Key Vault"
-          job: "JobDeployInfrastructureKeyVault"
           path: "keyVault"
           dependencies: [JobDeployInfraUserManagedIdentity]
-          paramOverride: >-
+          paramOverride: ""
 
 
 
@@ -95,9 +94,8 @@ stages:
       resourceBase: "web"
       resources:
           - webApp: "webApp"
-            id: "webApp"
+            id: "WebApp"
             name: "Web Api"
-            job: "JobDeployInfrastructureWebApp"
             path: "webApp"
             dependencies: []
             paramOverride: >-
@@ -105,24 +103,123 @@ stages:
               -repoUrl "https://github.com/Mouhsine-inetum/Food-delivery-server-alternate.git"
               -skuApiServiceName "B1"
               -skuApiServiceCapacity 3
+          
+          - appConfig: "appConfiguration"
+            id: "appConfig"
+            name: "App Configuration"
+            path: "appConfig"
+            dependencies: [JobDeployInfra_WebApp]
+            paramOverride: >- 
+              -apiConf [{
+                          name: 'ClientSettings__ClientDomain'
+                          value: 'https://localhost:44373'
+                        }]
 
   # - template: "./templates/stages/stage-deploy-infra.yml@self"
   #   parameters:
-  #     stage: StageProvisionInfrastructureDataFactory
+  #     stage: StageProvisionInfrastructure_SqlServerDb
   #     dependsOn:
-  #       - StageProvisionInfrastructureLogAnalytics
-  #     condition: succeeded()
-  #     resource: "Data Factory"
+  #       - StageProvisionInfrastructure_storages
+  #     condition: "succeeded()"
   #     serviceConnection: "${{ parameters.serviceConnection }}"
   #     rgName: "$(rgName)"
-  #     infraPath: "infra/data-factory"
+  #     infraPath: "infrastructure"
   #     location: "$(location)"
   #     owner: "$(owner)"
   #     costCenter: "$(costCenter)"
   #     application: "$(application)"
   #     desc: "$(desc)"
   #     repo: "$(repo)"
-  #     appShort: "$(appShort)"
-  #     domainShort: "$(domainShort)"
   #     version: "$(version)"
-  #     env: "${{ parameters.environment }}"
+  #     partName: "$(partName)"
+  #     resourceBase: "sql server and db"
+  #     resources:
+  #         - webApp: "sql"
+  #           id: "SqlServerDb"
+  #           name: "sql server & db"
+  #           path: "sqlDb"
+  #           dependencies: []
+  #           paramOverride: >-
+  #             -sqlAdminLogin "adminUser"
+  #             -kvName "kvfoodeliverywesteurope"
+  #             -rgKvName "cloud-shell-storage-westeurope"
+
+  # - template: "./templates/stages/stage-deploy-infra.yml@self"
+  #   parameters:
+  #     stage: StageProvisionInfrastructure_ServiceBus
+  #     dependsOn:
+  #       - StageProvisionInfrastructure_SqlServerDb
+  #     condition: "succeeded()"
+  #     serviceConnection: "${{ parameters.serviceConnection }}"
+  #     rgName: "$(rgName)"
+  #     infraPath: "infrastructure"
+  #     location: "$(location)"
+  #     owner: "$(owner)"
+  #     costCenter: "$(costCenter)"
+  #     application: "$(application)"
+  #     desc: "$(desc)"
+  #     repo: "$(repo)"
+  #     version: "$(version)"
+  #     partName: "$(partName)"
+  #     resourceBase: "service bus namespace and topic"
+  #     resources:
+  #         - webApp: "sb"
+  #           id: "sbTopics"
+  #           name: "serviceBus and topics"
+  #           path: "sbTop"
+  #           dependencies: []
+  #           paramOverride: ""
+
+  # - template: "./templates/stages/stage-deploy-infra.yml@self"
+  #   parameters:
+  #     stage: StageProvisionInfrastructure_AppInsight
+  #     dependsOn:
+  #       - StageProvisionInfrastructure_ServiceBus
+  #     condition: "succeeded()"
+  #     serviceConnection: "${{ parameters.serviceConnection }}"
+  #     rgName: "$(rgName)"
+  #     infraPath: "infrastructure"
+  #     location: "$(location)"
+  #     owner: "$(owner)"
+  #     costCenter: "$(costCenter)"
+  #     application: "$(application)"
+  #     desc: "$(desc)"
+  #     repo: "$(repo)"
+  #     version: "$(version)"
+  #     partName: "$(partName)"
+  #     resourceBase: "service bus namespace and topic"
+  #     resources:
+  #         - webApp: "AppInsight"
+  #           id: "AppInisght"
+  #           name: "App Inisght and log space"
+  #           path: "appInsight"
+  #           dependencies: []
+  #           paramOverride: ""
+  
+  # - template: "./templates/stages/stage-deploy-infra.yml@self"
+  #   parameters:
+  #     stage: StageProvisionInfrastructure_funcApp
+  #     dependsOn:
+  #       - StageProvisionInfrastructure_AppInsight
+  #     condition: "succeeded()"
+  #     serviceConnection: "${{ parameters.serviceConnection }}"
+  #     rgName: "$(rgName)"
+  #     infraPath: "infrastructure"
+  #     location: "$(location)"
+  #     owner: "$(owner)"
+  #     costCenter: "$(costCenter)"
+  #     application: "$(application)"
+  #     desc: "$(desc)"
+  #     repo: "$(repo)"
+  #     version: "$(version)"
+  #     partName: "$(partName)"
+  #     resourceBase: "function app integration"
+  #     resources:
+  #         - webApp: "funcApp"
+  #           id: "funcApp"
+  #           name: "function app integration"
+  #           path: "funcApp"
+  #           dependencies: []
+  #           paramOverride: >-
+  #             -containerName "products"
+

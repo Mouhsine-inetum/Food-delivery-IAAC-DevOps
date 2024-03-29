@@ -44,7 +44,7 @@ stages:
       - ${{ each resource in parameters.resources }}:
           - template: "../jobs/job-deploy-infra.yml@self"
             parameters:
-              job: "JobDeployInfra${{ resource.id }}"
+              job: "JobDeployInfra_${{ resource.id }}"
               resourceName: "${{ resource.name }}"
               dependsOn: ${{ resource.dependencies }}
               serviceConnection: "${{ parameters.serviceConnection }}"

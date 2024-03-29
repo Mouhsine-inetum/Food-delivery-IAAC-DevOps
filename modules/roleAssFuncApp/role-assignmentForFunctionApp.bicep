@@ -1,11 +1,8 @@
-@description('role definition name')
-param storageDataRoleAssignmentName string
+@description('component name used for resource name')
+param partName string 
 
 @description('role definition id')
 param storageDataRoleDefinitionId string
-
-@description('role definition name')
-param topicsListenerRoleAssignmentName string
 
 @description('role definition id')
 param topicsListenerRoleDefinitionId string
@@ -17,8 +14,9 @@ var storageServiceName = 'sa${toLower(replace(partName,'-',''))}'
 
 var serviceBusName = 'sbn-${partName}'
 
-@description('component name used for resource name')
-param partName string 
+var storageDataRoleAssignmentName = guid(storageBlobService.id , principalId, storageDataRoleDefinitionId)
+var topicsListenerRoleAssignmentName = guid(storageBlobService.id , principalId, topicsListenerRoleDefinitionId)
+
 
 resource storageBlobService 'Microsoft.Storage/storageAccounts@2023-01-01' existing = {
   name: storageServiceName

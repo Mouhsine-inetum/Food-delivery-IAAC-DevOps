@@ -1,6 +1,7 @@
-
+@description('role definition to establish the permssions to the resource needed')
 param roleDefinitionId string
 
+@description('principal id to will be given access to the resource')
 param principalId string
 
 @description('component name used for resource name')

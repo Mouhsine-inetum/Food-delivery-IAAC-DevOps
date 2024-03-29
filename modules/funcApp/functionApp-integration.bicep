@@ -7,12 +7,12 @@ param partName string
 param nameOfContainer string
 
 
-@description('name of the in value binded trigger')
-param bindingName string 
+// @description('name of the in value binded trigger')
+// param bindingName string 
 
 var functionAppName = 'fa-${partName}'
 var appServicePlanName = 'as-${partName}'
-var functionName = 'fn${partName}'
+// var functionName = 'fn${partName}'
 var functionRuntime = 'dotnet'
 var storageAccountName = 'sa${toLower(replace(partName,'-',''))}'
 
@@ -64,28 +64,28 @@ resource functionApp 'Microsoft.Web/sites@2020-12-01' = {
   }
 }
 
-resource function 'Microsoft.Web/sites/functions@2023-01-01' = {
-  parent: functionApp
-  name: functionName
-  properties: {
+// resource function 'Microsoft.Web/sites/functions@2023-01-01' = {
+//   parent: functionApp
+//   name: functionName
+//   properties: {
 
-    script_href: 'https://github.com/Mouhsine-inetum/Food-delivery-productCreated-functionApp.git'
-    config: {
-      disabled: false
-      bindings: [
-        {
-          name: bindingName
-          type: 'serviceBusTrigger'
-          direction: 'in'
-          authLevel: 'function'
-          methods: [
-            'get'
-          ]
-        }
-      ]
-    }
-  }
-}
+//     script_href: 'https://github.com/Mouhsine-inetum/Food-delivery-productCreated-functionApp.git'
+//     config: {
+//       disabled: false
+//       bindings: [
+//         {
+//           name: bindingName
+//           type: 'serviceBusTrigger'
+//           direction: 'in'
+//           authLevel: 'function'
+//           methods: [
+//             'get'
+//           ]
+//         }
+//       ]
+//     }
+//   }
+// }
 
 
 resource appToStorageRoleDefinition 'Microsoft.Authorization/roleDefinitions@2022-05-01-preview' existing = {
@@ -95,10 +95,16 @@ resource appToStorageRoleDefinition 'Microsoft.Authorization/roleDefinitions@202
 
 
 
+resource serviceBusListenRoleDefinition 'Microsoft.Authorization/roleDefinitions@2022-05-01-preview' existing = {
+  scope: subscription()
+  name: '4f6d3b9b-027b-4f4c-9142-0e5a2a2247e0'
+}
+
 
 
 output functionPrincipal string = functionApp.identity.principalId
 output roleDefinitionForAppToStorage string = appToStorageRoleDefinition.id
+output sbListenRoleDefinition string = serviceBusListenRoleDefinition.id
 
 output functionId string = functionApp.id
 output functionAppHostName string = functionApp.properties.defaultHostName

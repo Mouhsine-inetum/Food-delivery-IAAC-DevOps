@@ -166,7 +166,7 @@ module webApiCreation '../modules/webApp/application-web-api.bicep' = {
 	params: {
 		branch: branch
 		location: location
-		msiName: managedIdModule.outputs.manPrincipalName
+		muiId: managedIdModule.outputs.manPrincipalId //change that 
 		repoURL: repoUrl
 		skuCapacity: skuApiServiceCapacity
 		skuName: skuApiServiceName
@@ -200,10 +200,8 @@ module roleAssignmentForAppInsight '../modules/roleAssInsight/role-assignmentFor
 	name: 'role-assignment-insight'
 	params: {
     partName: partName
-		ContributeRoleAssignmentName: guid(apiInsights.outputs.logSpaceId, managedIdModule.outputs.manPrincipalId, apiInsights.outputs.contributeRoleId)
 		ContributeRoleDefinitionId: apiInsights.outputs.contributeRoleId
 		principalId: managedIdModule.outputs.manPrincipalId
-		ReadRoleAssignmentName: guid(apiInsights.outputs.logSpaceId, managedIdModule.outputs.manPrincipalId, apiInsights.outputs.readRoleId)
 		ReadRoleDefinitionId: apiInsights.outputs.readRoleId
 	}
 }
@@ -235,7 +233,7 @@ module functionApp '../modules/funcApp/functionApp-integration.bicep' = {
 	params: {
     partName: partName
 		location: location
-		bindingName: bindingName
+		// bindingName: bindingName
 		nameOfContainer: containerName
 	}
 }
@@ -245,9 +243,7 @@ module roleAssignmentForfunctionApp '../modules/roleAssFuncApp/role-assignmentFo
 	params: {
     partName: partName
 		principalId: functionApp.outputs.functionPrincipal
-		storageDataRoleAssignmentName: guid(functionApp.outputs.functionId, functionApp.outputs.functionPrincipal, functionApp.outputs.roleDefinitionForAppToStorage)
 		storageDataRoleDefinitionId: functionApp.outputs.roleDefinitionForAppToStorage
-		topicsListenerRoleAssignmentName: guid(functionApp.outputs.functionId, functionApp.outputs.functionPrincipal, serviceBus.outputs.sbListenRoleDefinition)
 		topicsListenerRoleDefinitionId: serviceBus.outputs.sbListenRoleDefinition
 	}
 }
