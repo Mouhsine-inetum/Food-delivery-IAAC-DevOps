@@ -68,7 +68,7 @@ stages:
           id: "KeyVault"
           name: "Key Vault"
           path: "keyVault"
-          dependencies: [JobDeployInfraUserManagedIdentity]
+          dependencies: [JobDeployInfra_UserManagedIdentity]
           paramOverride: ""
 
 
