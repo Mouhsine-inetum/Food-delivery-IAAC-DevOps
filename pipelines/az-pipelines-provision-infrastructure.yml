@@ -115,7 +115,7 @@ stages:
             path: "appConfig"
             dependencies: [JobDeployInfra_WebApp]
             paramOverride: >- 
-              -apiConf "$()"
+              -apiConf "$(configsForWebApi)"
 
   # - template: "./templates/stages/stage-deploy-infra.yml@self"
   #   parameters:
