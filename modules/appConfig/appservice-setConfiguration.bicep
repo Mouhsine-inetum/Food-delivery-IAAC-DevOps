@@ -11,8 +11,6 @@ param partName string
 
 @description('name of the client domain')
 param apiConfigSet array
-
-
 // @description('name of the client domain')
 // param funcAppConfigSet array
 
