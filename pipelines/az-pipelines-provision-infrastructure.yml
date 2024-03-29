@@ -22,8 +22,6 @@ variables:
     value: "rg-$(companyShort)-$(domainShort)-$(appShort)-$(locationAbbr)-${{ parameters.environment }}-$(version)"
   - name: partName
     value: "$(companyShort)-$(domainShort)-$(appShort)-$(locationAbbr)-${{ parameters.environment }}-$(version)"
-  - name: confSet
-    value: '{ "name": "ClientSettings__ClientDomain", "value": "https://localhost:44373" }'
 
 stages:
   - template: "./templates/stages/stage-deploy-rg.yml@self"
@@ -111,8 +109,7 @@ stages:
             name: "App Configuration"
             path: "appConfig"
             dependencies: [JobDeployInfra_WebApp]
-            paramOverride: >- 
-              -apiConf ["$(confSet)"]
+            paramOverride: '-clientSettings [{"name": "ClientSettings__ClientDomain", "value": "https://example.com"}]'
 
   # - template: "./templates/stages/stage-deploy-infra.yml@self"
   #   parameters:
