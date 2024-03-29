@@ -109,7 +109,7 @@ stages:
             name: "App Configuration"
             path: "appConfig"
             dependencies: [JobDeployInfra_WebApp]
-            paramOverride: '-clientSettings [{"name": "ClientSettings__ClientDomain", "value": "https://example.com"}]'
+            paramOverride: '-apiConf [{"name": "ClientSettings__ClientDomain", "value": "https://example.com"}]'
 
   # - template: "./templates/stages/stage-deploy-infra.yml@self"
   #   parameters:
