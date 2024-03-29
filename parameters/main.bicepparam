@@ -1,4 +1,4 @@
-using '../main.bicep'
+using '../infrastructure/main.bicep'
 
 param env = 'dev'
 param keyVaulName = 'kvfoodeliverywesteurope'
