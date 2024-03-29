@@ -60,9 +60,9 @@ stages:
           id: "UserManagedIdentity"
           name: "User Managed Identity"
           job: "JobDeployInfrastructureManagedId"
-          path: "ManagedId"
+          path: "managedId"
           dependencies: []
-          paramOverride: >-
+          paramOverride: ""
 
         - kv: "keyVault"
           id: "KeyVault"
