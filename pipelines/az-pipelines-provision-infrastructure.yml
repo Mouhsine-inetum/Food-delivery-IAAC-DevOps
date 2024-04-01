@@ -36,19 +36,6 @@ stages:
       application: "$(application)"
       desc: "$(desc)"
       repo: "$(repo)"
-  
-  - template: "./templates/stages/stage-deploy-rg.yml@self"
-    parameters:
-      stage: StageProvisionRG
-      resource: "RG"
-      serviceConnection: "${{ parameters.serviceConnection }}"
-      rgName: "$(rgName)"
-      location: "$(location)"
-      owner: "$(owner)"
-      costCenter: "$(costCenter)"
-      application: "$(application)"
-      desc: "$(desc)"
-      repo: "$(repo)"
 
 
 
