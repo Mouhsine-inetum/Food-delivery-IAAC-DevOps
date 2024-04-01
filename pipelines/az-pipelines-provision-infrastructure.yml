@@ -115,7 +115,7 @@ stages:
     parameters:
       stage: StageProvisionInfrastructure_SqlServerDb
       dependsOn:
-        - StageProvisionInfrastructure_storages
+        - StageProvisionInfrastructure_web
       condition: "succeeded()"
       serviceConnection: "${{ parameters.serviceConnection }}"
       rgName: "$(rgName)"
@@ -170,7 +170,7 @@ stages:
     parameters:
       stage: StageProvisionInfrastructure_AppInsight
       dependsOn:
-        - StageProvisionInfrastructure_ServiceBus
+        - StageProvisionInfrastructure_web
       condition: "succeeded()"
       serviceConnection: "${{ parameters.serviceConnection }}"
       rgName: "$(rgName)"
