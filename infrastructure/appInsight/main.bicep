@@ -43,4 +43,5 @@ module roleAssignmentForAppInsight '../../modules/roleAssInsight/role-assignment
 		principalId: managedId.properties.principalId
 		ReadRoleDefinitionId: apiInsights.outputs.readRoleId
 	}
+	dependsOn:[apiInsights]
 }
