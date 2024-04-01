@@ -42,4 +42,5 @@ module keyVaultModule '../../modules/keyVault/keyVault.bicep' = {
 			roleDefinitionId: keyVaultModule.outputs.keyVaultRoleDefinition
 			principalId: managedId.properties.principalId
 		}
+    dependsOn:[keyVaultModule]
 	}

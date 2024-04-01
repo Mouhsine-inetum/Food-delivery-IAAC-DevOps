@@ -24,6 +24,7 @@ var tag = {
 module functionApp '../../modules/funcApp/functionApp-integration.bicep' = {
 	name: 'function-app-deployment'
 	params: {
+		tags : tag
     partName: partName
 		location: location
 		// bindingName: bindingName
@@ -40,4 +41,5 @@ module roleAssignmentForfunctionApp '../../modules/roleAssFuncApp/role-assignmen
 		storageDataRoleDefinitionId: functionApp.outputs.roleDefinitionForAppToStorage
 		topicsListenerRoleDefinitionId: functionApp.outputs.sbListenRoleDefinition
 	}
+	dependsOn:[functionApp]
 }

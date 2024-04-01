@@ -6,6 +6,7 @@ param partName string
 @description('name of the container to be created')
 param nameOfContainer string
 
+param tags object
 
 // @description('name of the in value binded trigger')
 // param bindingName string 
@@ -30,6 +31,7 @@ resource functionApp 'Microsoft.Web/sites@2020-12-01' = {
   name: functionAppName
   location: location
   kind: 'functionapp'
+  tags:tags
   identity:{
     type: 'SystemAssigned'
   }

@@ -42,4 +42,5 @@ module roleAssignmentForServiceBus '../../modules/roleAssSb/role-assignmentForSe
 		roleDefinitionId: serviceBus.outputs.sbSenderRoleDefinition
 		serviceBusId: serviceBus.outputs.serviceBusId
 	}
+	dependsOn:[serviceBus]
 }
