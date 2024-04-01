@@ -130,7 +130,7 @@ stages:
       partName: "$(partName)"
       resourceBase: "sql server and db"
       resources:
-          - webApp: "sql"
+          - sql: "sql"
             id: "SqlServerDb"
             name: "sql server & db"
             path: "sqlDb"
@@ -159,7 +159,7 @@ stages:
       partName: "$(partName)"
       resourceBase: "service bus namespace and topic"
       resources:
-          - webApp: "sb"
+          - sb: "sb"
             id: "sbTopics"
             name: "serviceBus and topics"
             path: "sbTop"
@@ -185,7 +185,7 @@ stages:
       partName: "$(partName)"
       resourceBase: "service bus namespace and topic"
       resources:
-          - webApp: "AppInsight"
+          - insights: "AppInsight"
             id: "AppInisght"
             name: "App Inisght and log space"
             path: "appInsight"
@@ -211,7 +211,7 @@ stages:
       partName: "$(partName)"
       resourceBase: "function app integration"
       resources:
-          - webApp: "funcApp"
+          - function: "funcApp"
             id: "funcApp"
             name: "function app integration"
             path: "funcApp"
