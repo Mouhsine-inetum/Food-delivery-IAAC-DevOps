@@ -38,4 +38,5 @@ module roleAssignmentForSA '../../modules/roleAssSa/role-assignmentForStorageAcc
     partName: partName
     principalId: managedId.properties.principalId
   }
+  dependsOn:[storageAccountModule]
 }
