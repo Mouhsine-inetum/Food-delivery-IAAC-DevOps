@@ -24,6 +24,7 @@ module storageAccountModule '../../modules/sa/storageAccount.bicep' = {
 	params: {
 		location: location
 		partName:partName
+    tags: tag
 	}
 }
 

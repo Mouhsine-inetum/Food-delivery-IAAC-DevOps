@@ -11,12 +11,15 @@ param containerNames array= [
 @description('component name used for resource name')
 param partName string 
 
+param tags object
+
 var nameSa = 'sa${toLower(replace(partName,'-',''))}'
 
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2023-01-01'={
 	name: nameSa
 	location: location
+	tags:tags
 	sku: {
 		name:'Standard_LRS'
 	}

@@ -21,9 +21,10 @@ var tag = {
 var managedIdName = 'muid-${partName}'
 
 
-module serviceBus '../../modules//sbTop/serviceBus-topics.bicep' = {
+module serviceBus '../../modules/sbTop/serviceBus-topics.bicep' = {
 	name: 'service-bus-deployment'
 	params: {
+		tags: tag
 		location: location 
 		partName: partName
 	}

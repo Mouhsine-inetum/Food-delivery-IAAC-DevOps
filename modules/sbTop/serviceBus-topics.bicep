@@ -3,10 +3,14 @@ param location string
 @description('component name used for resource name')
 param partName string 
 
+
+param tags object
+
 var sbNameSpace = 'sbn-${partName}'
 
 resource serviceBus 'Microsoft.ServiceBus/namespaces@2022-10-01-preview' = {
   name: sbNameSpace
+  tags:tags
   location: location
   sku: {
     name: 'Standard'

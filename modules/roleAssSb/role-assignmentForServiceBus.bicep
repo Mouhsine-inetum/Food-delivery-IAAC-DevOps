@@ -7,15 +7,15 @@ param serviceBusId string
 @description('component name used for resource name')
 param partName string 
 
-var keyVaultName = 'kv${partName}' 
-resource keyVault 'Microsoft.KeyVault/vaults@2023-02-01' existing = {
-  name: keyVaultName
+var serviceBusName = 'sbn-${partName}' 
+resource serviceBus 'Microsoft.ServiceBus/namespaces@2022-10-01-preview' existing = {
+  name: serviceBusName
 }
 
 var  roleAssignmentName = guid(serviceBusId, principalId, roleDefinitionId)
 resource roleAssignmentForKeyVault 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   name: roleAssignmentName
-  scope: keyVault
+  scope: serviceBus
   properties: {
     roleDefinitionId: roleDefinitionId
     principalId: principalId

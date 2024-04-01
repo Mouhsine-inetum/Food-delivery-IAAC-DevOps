@@ -36,10 +36,25 @@ stages:
       application: "$(application)"
       desc: "$(desc)"
       repo: "$(repo)"
+  
+  - template: "./templates/stages/stage-deploy-rg.yml@self"
+    parameters:
+      stage: StageProvisionRG
+      resource: "RG"
+      serviceConnection: "${{ parameters.serviceConnection }}"
+      rgName: "$(rgName)"
+      location: "$(location)"
+      owner: "$(owner)"
+      costCenter: "$(costCenter)"
+      application: "$(application)"
+      desc: "$(desc)"
+      repo: "$(repo)"
+
+
 
   - template: "./templates/stages/stage-deploy-infra.yml@self"
     parameters:
-      stage: StageProvisionInfrastructure_storages
+      stage: StageProvisionInfrastructure_kv
       dependsOn:
         - StageProvisionRG
       condition: "succeeded()"
@@ -72,13 +87,39 @@ stages:
           paramOverride: ""
 
 
+  - template: "./templates/stages/stage-deploy-infra.yml@self"
+    parameters:
+      stage: StageProvisionInfrastructure_storageAccount
+      dependsOn:
+        - StageProvisionInfrastructure_kv
+      condition: "succeeded()"
+      serviceConnection: "${{ parameters.serviceConnection }}"
+      rgName: "$(rgName)"
+      infraPath: "infrastructure"
+      location: "$(location)"
+      owner: "$(owner)"
+      costCenter: "$(costCenter)"
+      application: "$(application)"
+      desc: "$(desc)"
+      repo: "$(repo)"
+      version: "$(version)"
+      partName: "$(partName)"
+      resourceBase: "storage"
+      resources:
+        - sa: "sa"
+          id: "storageAccount"
+          name: "Storage Account"
+          job: "JobDeployInfrastructureStorageAccount"
+          path: "sa"
+          dependencies: []
+          paramOverride: ""
 
 
   - template: "./templates/stages/stage-deploy-infra.yml@self"
     parameters:
       stage: StageProvisionInfrastructure_web
       dependsOn:
-        - StageProvisionInfrastructure_storages
+        - StageProvisionInfrastructure_kv
       condition: "succeeded()"
       serviceConnection: "${{ parameters.serviceConnection }}"
       rgName: "$(rgName)"
@@ -144,7 +185,7 @@ stages:
     parameters:
       stage: StageProvisionInfrastructure_ServiceBus
       dependsOn:
-        - StageProvisionInfrastructure_SqlServerDb
+        - StageProvisionInfrastructure_kv
       condition: "succeeded()"
       serviceConnection: "${{ parameters.serviceConnection }}"
       rgName: "$(rgName)"
@@ -196,7 +237,7 @@ stages:
     parameters:
       stage: StageProvisionInfrastructure_funcApp
       dependsOn:
-        - StageProvisionInfrastructure_AppInsight
+        - StageProvisionInfrastructure_storageAccount
       condition: "succeeded()"
       serviceConnection: "${{ parameters.serviceConnection }}"
       rgName: "$(rgName)"
